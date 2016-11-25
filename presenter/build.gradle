@@ -23,6 +23,13 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+    productFlavors {
+        prod {
+            buildConfigField 'String', 'API_TMDB', '"https://api.themoviedb.org/3"'
+            buildConfigField 'String', 'API_IMAGE_TMDB', '"https://image.tmdb.org/t/p/w500"'
+            buildConfigField 'String', 'API_KEY', '"1f54bd990f1cdfb230adb312546d765d"'
+        }
+    }
 }
 
 dependencies {
@@ -41,7 +48,10 @@ dependencies {
             "com.google.dagger:dagger:${dagger_version}",
             'io.reactivex:rxjava:1.0.14',
             'io.reactivex:rxandroid:1.1.0',
-            'com.android.support:recyclerview-v7:25.0.0'
+            'com.android.support:recyclerview-v7:25.0.0',
+            "com.squareup.retrofit2:retrofit:2.0.0",
+            "com.squareup.retrofit2:adapter-rxjava:2.0.0",
+            "com.squareup.retrofit2:converter-gson:2.0.0"
     )
 
     kapt("com.google.dagger:dagger-compiler:${dagger_version}")
