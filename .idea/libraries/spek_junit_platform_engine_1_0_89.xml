@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="spek-junit-platform-engine-1.0.89">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.spek/spek-junit-platform-engine/1.0.89/95cf7b84f44354b761c1776fa0867cdb1da348c/spek-junit-platform-engine-1.0.89.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.spek/spek-junit-platform-engine/1.0.89/18363c38b1d5ff6fbdf35a4818e3cdec1fe2ab82/spek-junit-platform-engine-1.0.89-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

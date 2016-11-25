@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 25
@@ -24,15 +26,42 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    ext.dagger_version = "2.7"
+
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.0.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha4'
-    testCompile 'junit:junit:4.12'
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    compile(
+            fileTree(dir: 'libs', include: ['*.jar']),
+            project(path: ':domain'),
+            'com.android.support:appcompat-v7:25.0.1',
+            'com.android.support.constraint:constraint-layout:1.0.0-alpha4',
+            "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
+            "com.google.dagger:dagger:${dagger_version}",
+            'io.reactivex:rxjava:1.0.14',
+            'io.reactivex:rxandroid:1.1.0',
+            'com.android.support:recyclerview-v7:25.0.0'
+    )
+
+    kapt("com.google.dagger:dagger-compiler:${dagger_version}")
+
+    provided('org.glassfish:javax.annotation:10.0-b28')
+
+    testCompile(
+            'junit:junit:4.12',
+            "com.nhaarman:mockito-kotlin:0.12.0",
+            'org.jetbrains.spek:spek-api:1.0.89',
+            'org.jetbrains.spek:spek-junit-platform-engine:1.0.89',
+            'org.junit.platform:junit-platform-runner:1.0.0-M2',
+            "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    )
 }
+
+kapt {
+    generateStubs = true
+}
+
 repositories {
     mavenCentral()
 }
