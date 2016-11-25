@@ -2,6 +2,9 @@
   <library name="support-core-ui-25.0.1">
     <ANNOTATIONS>
       <root url="jar://$USER_HOME$/.android/build-cache/d247c7e1ce33c86670bd6fdac6ce9fd6f65b365b/output/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.android/build-cache/d247c7e1ce33c86670bd6fdac6ce9fd6f65b365b/output/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.android/build-cache/d247c7e1ce33c86670bd6fdac6ce9fd6f65b365b/output/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.android/build-cache/d247c7e1ce33c86670bd6fdac6ce9fd6f65b365b/output/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
       <root url="jar://$USER_HOME$/.android/build-cache/d247c7e1ce33c86670bd6fdac6ce9fd6f65b365b/output/jars/classes.jar!/" />
@@ -10,6 +13,9 @@
     </CLASSES>
     <JAVADOC />
     <SOURCES>
+      <root url="jar://$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-core-ui/25.0.1/support-core-ui-25.0.1-sources.jar!/" />
+      <root url="jar://$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-core-ui/25.0.1/support-core-ui-25.0.1-sources.jar!/" />
+      <root url="jar://$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-core-ui/25.0.1/support-core-ui-25.0.1-sources.jar!/" />
       <root url="jar://$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-core-ui/25.0.1/support-core-ui-25.0.1-sources.jar!/" />
     </SOURCES>
   </library>
