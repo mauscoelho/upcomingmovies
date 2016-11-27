@@ -41,7 +41,6 @@ dependencies {
 
     compile(
             fileTree(dir: 'libs', include: ['*.jar']),
-            project(path: ':domain'),
             'com.android.support:appcompat-v7:25.0.1',
             'com.android.support.constraint:constraint-layout:1.0.0-alpha4',
             "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
@@ -66,6 +65,7 @@ dependencies {
             'org.junit.platform:junit-platform-runner:1.0.0-M2',
             "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     )
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 
 kapt {
