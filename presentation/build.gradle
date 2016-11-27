@@ -66,6 +66,7 @@ dependencies {
             "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     )
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile project(path: ':domain')
 }
 
 kapt {

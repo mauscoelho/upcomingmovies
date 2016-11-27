@@ -3,6 +3,11 @@ package com.mauscoelho.upcomingmovies.dagger
 import android.content.Context
 import com.mauscoelho.upcomingmovies.BuildConfig
 import com.mauscoelho.upcomingmovies.MoviesApplication
+import com.mauscoelho.upcomingmovies.domain.boundary.UpcomingMoviesService
+import com.mauscoelho.upcomingmovies.domain.interactor.UpcomingMoviesServiceImpl
+import com.mauscoelho.upcomingmovies.infraestruture.UpcomingMoviesRepository
+import com.mauscoelho.upcomingmovies.infraestruture.interactor.UpcomingMoviesRepositoryImpl
+import com.mauscoelho.upcomingmovies.infraestruture.network.TmdbNetwork
 import com.mauscoelho.upcomingmovies.views.movies.MoviesPresenter
 import com.mauscoelho.upcomingmovies.views.movies.MoviesPresenterImpl
 import dagger.Module
@@ -33,10 +38,25 @@ class MainModule(val application: MoviesApplication) {
                 .build()
     }
 
-
     @Provides
     fun provideMoviesPresenter() : MoviesPresenter{
         return MoviesPresenterImpl()
     }
+
+    @Provides
+    fun provideUpcomingMoviesService() : UpcomingMoviesService {
+        return UpcomingMoviesServiceImpl(provideUpcomingMoviesRepository())
+    }
+
+    @Provides
+    fun provideUpcomingMoviesRepository() : UpcomingMoviesRepository {
+        return UpcomingMoviesRepositoryImpl(provideTmdbNetwork(provideRetrofit()))
+    }
+
+    @Provides
+    fun provideTmdbNetwork(retrofit: Retrofit) : TmdbNetwork {
+        return retrofit.create(TmdbNetwork::class.java)
+    }
+
 
 }
