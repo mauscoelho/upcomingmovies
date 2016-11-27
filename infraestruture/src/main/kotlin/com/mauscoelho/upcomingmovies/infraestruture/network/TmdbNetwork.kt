@@ -1,4 +1,4 @@
-package com.mauscoelho.upcomingmovies.infraestruture
+package com.mauscoelho.upcomingmovies.infraestruture.network
 
 import com.mauscoelho.upcomingmovies.model.UpcomingMovies
 import retrofit2.http.GET
