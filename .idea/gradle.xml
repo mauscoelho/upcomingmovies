@@ -11,7 +11,7 @@
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/infraestruture" />
             <option value="$PROJECT_DIR$/model" />
-            <option value="$PROJECT_DIR$/presenter" />
+            <option value="$PROJECT_DIR$/presentation" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
