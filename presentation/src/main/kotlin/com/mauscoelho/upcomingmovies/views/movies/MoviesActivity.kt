@@ -2,15 +2,18 @@ package com.mauscoelho.upcomingmovies.views.movies
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.GridLayoutManager
 import com.mauscoelho.upcomingmovies.MoviesApplication
 import com.mauscoelho.upcomingmovies.R
 import com.mauscoelho.upcomingmovies.model.Movie
+import com.mauscoelho.upcomingmovies.views.helper.InfiniteScrollListener
 import kotlinx.android.synthetic.main.activity_movies.*
 import javax.inject.Inject
 
+
 class MoviesActivity : AppCompatActivity(), MoviesView {
-    @Inject lateinit var moviesPresenter : MoviesPresenter
-    @Inject lateinit var moviesAdapter : MoviesAdapter
+    @Inject lateinit var moviesPresenter: MoviesPresenter
+    @Inject lateinit var moviesAdapter: MoviesAdapter
 
     @Override
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,6 +26,7 @@ class MoviesActivity : AppCompatActivity(), MoviesView {
 
     private fun initialize() {
         rv_movies.adapter = moviesAdapter
+        rv_movies.addOnScrollListener(InfiniteScrollListener({ moviesPresenter.loadMovies() }, rv_movies.layoutManager as GridLayoutManager))
         moviesPresenter.loadMovies()
     }
 

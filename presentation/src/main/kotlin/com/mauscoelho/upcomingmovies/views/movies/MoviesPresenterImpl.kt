@@ -1,5 +1,7 @@
 package com.mauscoelho.upcomingmovies.views.movies
 
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
 import com.mauscoelho.upcomingmovies.BuildConfig
 import com.mauscoelho.upcomingmovies.domain.boundary.UpcomingMoviesService
 import okhttp3.internal.Internal.logger
@@ -11,6 +13,7 @@ class MoviesPresenterImpl(val upcomingMoviesService: UpcomingMoviesService) : Mo
     val language = "en-US"
     var currentPage = 0
     var totalPages = 1
+    var isLoading = false
 
     override fun injectView(moviesView: MoviesView) {
         this.moviesView = moviesView
