@@ -3,6 +3,7 @@ package com.mauscoelho.upcomingmovies.views.movies
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
+import android.view.View
 import com.mauscoelho.upcomingmovies.MoviesApplication
 import com.mauscoelho.upcomingmovies.R
 import com.mauscoelho.upcomingmovies.model.Movie
@@ -12,6 +13,7 @@ import javax.inject.Inject
 
 
 class MoviesActivity : AppCompatActivity(), MoviesView {
+
     @Inject lateinit var moviesPresenter: MoviesPresenter
     @Inject lateinit var moviesAdapter: MoviesAdapter
 
@@ -32,5 +34,9 @@ class MoviesActivity : AppCompatActivity(), MoviesView {
 
     override fun addMovie(movie: Movie) {
         moviesAdapter.addMovie(movie)
+    }
+
+    override fun hideLoading() {
+        progress_bar.visibility = View.GONE
     }
 }

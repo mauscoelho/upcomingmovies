@@ -31,7 +31,7 @@ class MainModule(val application: MoviesApplication) {
     }
 
     @Provides
-    fun provideokHttp(): OkHttpClient{
+    fun provideokHttp(): OkHttpClient {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.HEADERS
         return OkHttpClient.Builder().addInterceptor(interceptor).build()
@@ -48,28 +48,31 @@ class MainModule(val application: MoviesApplication) {
     }
 
     @Provides
-    fun provideMoviesPresenter() : MoviesPresenter{
-        return MoviesPresenterImpl(provideUpcomingMoviesService())
+    fun provideMoviesPresenter(): MoviesPresenter {
+        return MoviesPresenterImpl(provideUpcomingMoviesService(), provideLanguage())
     }
 
     @Provides
-    fun provideUpcomingMoviesService() : UpcomingMoviesService {
+    fun provideUpcomingMoviesService(): UpcomingMoviesService {
         return UpcomingMoviesServiceImpl(provideUpcomingMoviesRepository())
     }
 
     @Provides
-    fun provideUpcomingMoviesRepository() : UpcomingMoviesRepository {
+    fun provideUpcomingMoviesRepository(): UpcomingMoviesRepository {
         return UpcomingMoviesRepositoryImpl(provideTmdbNetwork(provideRetrofit()))
     }
 
     @Provides
-    fun provideTmdbNetwork(retrofit: Retrofit) : TmdbNetwork {
+    fun provideTmdbNetwork(retrofit: Retrofit): TmdbNetwork {
         return retrofit.create(TmdbNetwork::class.java)
     }
 
     @Provides
-    fun provideMoviesAdapter() : MoviesAdapter {
+    fun provideMoviesAdapter(): MoviesAdapter {
         return MoviesAdapter()
     }
+
+    @Provides
+    fun provideLanguage() = "en-US"
 
 }
