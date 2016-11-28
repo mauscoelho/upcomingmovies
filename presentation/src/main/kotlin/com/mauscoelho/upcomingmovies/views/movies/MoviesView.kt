@@ -4,4 +4,5 @@ import com.mauscoelho.upcomingmovies.model.Movie
 
 interface MoviesView {
     fun addMovie(movie : Movie)
+    fun hideLoading()
 }

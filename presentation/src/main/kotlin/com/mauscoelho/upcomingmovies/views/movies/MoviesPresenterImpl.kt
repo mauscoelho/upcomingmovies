@@ -6,9 +6,10 @@ import okhttp3.internal.Internal.logger
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
-class MoviesPresenterImpl(val upcomingMoviesService: UpcomingMoviesService) : MoviesPresenter {
+class MoviesPresenterImpl(val upcomingMoviesService: UpcomingMoviesService,
+                          val language: String) : MoviesPresenter {
+
     lateinit var moviesView: MoviesView
-    val language = "en-US"
     var currentPage = 0
     var totalPages = 1
 
@@ -22,14 +23,12 @@ class MoviesPresenterImpl(val upcomingMoviesService: UpcomingMoviesService) : Mo
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
-                        logger.info("page ${it.page}")
-                        logger.info("total_pages ${it.total_pages}")
                         currentPage = it.page
                         totalPages = it.total_pages
                         it.results.map {
-                            logger.info("movie ${it.original_title}")
                             moviesView.addMovie(it)
                         }
+                        moviesView.hideLoading()
                     }, {
                         logger.info("error:" + it.message)
                     })
