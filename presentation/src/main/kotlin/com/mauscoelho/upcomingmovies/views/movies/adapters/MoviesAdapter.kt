@@ -1,4 +1,4 @@
-package com.mauscoelho.upcomingmovies.views.movies
+package com.mauscoelho.upcomingmovies.views.movies.adapters
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.mauscoelho.upcomingmovies.BuildConfig
 import com.mauscoelho.upcomingmovies.R
 import com.mauscoelho.upcomingmovies.model.Movie
+import com.mauscoelho.upcomingmovies.views.movies.adapters.GenresAdapter
 import kotlinx.android.synthetic.main.item_movie.view.*
 
 

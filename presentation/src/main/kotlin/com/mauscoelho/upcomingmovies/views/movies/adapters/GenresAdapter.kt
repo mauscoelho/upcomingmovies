@@ -1,4 +1,4 @@
-package com.mauscoelho.upcomingmovies.views.movies
+package com.mauscoelho.upcomingmovies.views.movies.adapters
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import com.mauscoelho.upcomingmovies.R
 import com.mauscoelho.upcomingmovies.model.Genre
 import kotlinx.android.synthetic.main.item_genre.view.*
-import okhttp3.internal.Internal.logger
 
 
 class GenresAdapter : RecyclerView.Adapter<GenresAdapter.ItemViewHolder>() {
@@ -32,7 +31,6 @@ class GenresAdapter : RecyclerView.Adapter<GenresAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: Genre) = with(itemView) {
-            logger.info(item.name)
             item_genre_txt.text = item.name
         }
     }
