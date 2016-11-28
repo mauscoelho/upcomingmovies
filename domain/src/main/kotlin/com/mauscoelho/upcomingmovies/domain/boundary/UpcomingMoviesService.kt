@@ -1,9 +1,9 @@
 package com.mauscoelho.upcomingmovies.domain.boundary
 
-import com.mauscoelho.upcomingmovies.model.UpcomingMovies
+import com.mauscoelho.upcomingmovies.model.Movie
 import rx.Observable
 
 
 interface UpcomingMoviesService {
-    fun getUpcomingMovies(api_key: String, language: String, page: Int) : Observable<UpcomingMovies>
+    fun getUpcomingMovies(api_key: String, language: String, page: Int) : Observable<Movie>
 }
