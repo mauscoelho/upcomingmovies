@@ -1,7 +1,7 @@
 package com.mauscoelho.upcomingmovies.model
 
 
-class UpcomingMovies(
+data class UpcomingMovies(
         val page: Int,
         val results: Array<Movie>,
         val total_pages: Int,

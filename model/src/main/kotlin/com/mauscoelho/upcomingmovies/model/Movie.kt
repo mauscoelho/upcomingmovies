@@ -1,7 +1,7 @@
 package com.mauscoelho.upcomingmovies.model
 
 
-class Movie(
+data class Movie(
         val id: Int,
         val original_title: String,
         val poster_path: String,

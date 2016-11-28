@@ -13,6 +13,7 @@ import com.mauscoelho.upcomingmovies.views.movies.MoviesPresenterImpl
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -29,18 +30,26 @@ class MainModule(val application: MoviesApplication) {
     }
 
     @Provides
+    fun provideokHttp(): OkHttpClient{
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.level = HttpLoggingInterceptor.Level.HEADERS
+        return OkHttpClient.Builder().addInterceptor(interceptor).build()
+    }
+
+    @Provides
     fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
                 .baseUrl(BuildConfig.API_TMDB)
-                .baseUrl(BuildConfig.API_IMAGE_TMDB)
+                //.baseUrl(BuildConfig.API_IMAGE_TMDB)
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create()).client(OkHttpClient())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .client(provideokHttp())
                 .build()
     }
 
     @Provides
     fun provideMoviesPresenter() : MoviesPresenter{
-        return MoviesPresenterImpl()
+        return MoviesPresenterImpl(provideUpcomingMoviesService())
     }
 
     @Provides
