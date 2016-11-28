@@ -12,10 +12,10 @@ import kotlinx.android.synthetic.main.item_movie.view.*
 
 
 class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ItemViewHolder>() {
-    var movies = mutableListOf<Any>()
+    var movies = mutableListOf<Movie>()
 
     override fun onBindViewHolder(holder: ItemViewHolder?, position: Int) {
-        holder?.bind(movies.get(position) as Movie)
+        holder?.bind(movies.get(position))
     }
 
     override fun getItemCount(): Int {
@@ -36,6 +36,9 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ItemViewHolder>() {
             item_movie_txt.text = item.original_title
             item_movie_release_date.text = item.release_date
             Glide.with(itemView.context).load(BuildConfig.API_IMAGE_TMDB + item.poster_path).centerCrop().crossFade().into(item_movie_poster)
+            val genreAdapter = GenresAdapter()
+            rv_genres.adapter = genreAdapter
+            item.genres.map { genreAdapter.addGenre(it) }
         }
     }
 }

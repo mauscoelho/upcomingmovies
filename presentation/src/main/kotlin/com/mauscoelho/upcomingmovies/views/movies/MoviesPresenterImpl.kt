@@ -2,6 +2,7 @@ package com.mauscoelho.upcomingmovies.views.movies
 
 import com.mauscoelho.upcomingmovies.BuildConfig
 import com.mauscoelho.upcomingmovies.domain.boundary.UpcomingMoviesService
+import com.mauscoelho.upcomingmovies.model.Genre
 import okhttp3.internal.Internal.logger
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -26,6 +27,7 @@ class MoviesPresenterImpl(val upcomingMoviesService: UpcomingMoviesService,
                         currentPage = it.page
                         totalPages = it.total_pages
                         it.results.map {
+                            it.genres = getGenres(it.genre_ids)
                             moviesView.addMovie(it)
                         }
                         moviesView.hideLoading()
@@ -33,4 +35,9 @@ class MoviesPresenterImpl(val upcomingMoviesService: UpcomingMoviesService,
                         logger.info("error:" + it.message)
                     })
     }
+
+    fun getGenres(genre_ids: Array<Int>): Array<Genre> {
+      return arrayOf(Genre(1, "teste"))
+    }
+
 }

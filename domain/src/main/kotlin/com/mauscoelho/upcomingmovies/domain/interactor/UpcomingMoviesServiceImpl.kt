@@ -6,7 +6,7 @@ import com.mauscoelho.upcomingmovies.model.UpcomingMovies
 import rx.Observable
 
 
-class UpcomingMoviesServiceImpl(val upcomingMoviesRepository: UpcomingMoviesRepository) : UpcomingMoviesService{
+class UpcomingMoviesServiceImpl(val upcomingMoviesRepository: UpcomingMoviesRepository) : UpcomingMoviesService {
     override fun getUpcomingMovies(api_key: String, language: String, page: Int): Observable<UpcomingMovies> {
         return upcomingMoviesRepository.getUpcomingMovies(api_key, language, page)
     }

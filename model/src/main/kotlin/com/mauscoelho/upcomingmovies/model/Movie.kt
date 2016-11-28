@@ -6,5 +6,8 @@ data class Movie(
         val original_title: String,
         val poster_path: String,
         val overview: String,
-        val release_date: String)  {
-}
+        val release_date: String,
+        var genres: Array<Genre>,
+        val genre_ids: Array<Int>)
+
+
