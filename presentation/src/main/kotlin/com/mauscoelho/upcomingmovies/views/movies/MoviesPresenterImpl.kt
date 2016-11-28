@@ -18,18 +18,19 @@ class MoviesPresenterImpl(val upcomingMoviesService: UpcomingMoviesService,
     }
 
     override fun loadMovies() {
-        upcomingMoviesService.getUpcomingMovies(BuildConfig.API_KEY, language, currentPage + 1)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    currentPage = it.page
-                    totalPages = it.total_pages
-                    it.results.map {
-                        moviesView.addMovie(it)
-                    }
-                    moviesView.hideLoading()
-                }, {
-                    logger.info("error:" + it.message)
-                })
+        if (currentPage < totalPages)
+            upcomingMoviesService.getUpcomingMovies(BuildConfig.API_KEY, language, currentPage + 1)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        currentPage = it.page
+                        totalPages = it.total_pages
+                        it.results.map {
+                            moviesView.addMovie(it)
+                        }
+                        moviesView.hideLoading()
+                    }, {
+                        logger.info("error:" + it.message)
+                    })
     }
 }
