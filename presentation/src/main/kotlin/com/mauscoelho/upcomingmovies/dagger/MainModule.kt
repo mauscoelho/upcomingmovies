@@ -8,6 +8,7 @@ import com.mauscoelho.upcomingmovies.domain.interactor.UpcomingMoviesServiceImpl
 import com.mauscoelho.upcomingmovies.infraestruture.UpcomingMoviesRepository
 import com.mauscoelho.upcomingmovies.infraestruture.interactor.UpcomingMoviesRepositoryImpl
 import com.mauscoelho.upcomingmovies.infraestruture.network.TmdbNetwork
+import com.mauscoelho.upcomingmovies.views.movies.MoviesAdapter
 import com.mauscoelho.upcomingmovies.views.movies.MoviesPresenter
 import com.mauscoelho.upcomingmovies.views.movies.MoviesPresenterImpl
 import dagger.Module
@@ -66,5 +67,9 @@ class MainModule(val application: MoviesApplication) {
         return retrofit.create(TmdbNetwork::class.java)
     }
 
+    @Provides
+    fun provideMoviesAdapter() : MoviesAdapter {
+        return MoviesAdapter()
+    }
 
 }
