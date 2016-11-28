@@ -7,7 +7,7 @@ import rx.Observable
 
 
 class UpcomingMoviesServiceImpl(val upcomingMoviesRepository: UpcomingMoviesRepository) : UpcomingMoviesService{
-    override fun getUpcomingMovies(api_key: String, language: String): Observable<UpcomingMovies> {
-        return upcomingMoviesRepository.getUpcomingMovies(api_key, language)
+    override fun getUpcomingMovies(api_key: String, language: String, page: Int): Observable<UpcomingMovies> {
+        return upcomingMoviesRepository.getUpcomingMovies(api_key, language, page)
     }
 }

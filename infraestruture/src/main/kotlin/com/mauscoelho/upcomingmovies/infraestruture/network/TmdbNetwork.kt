@@ -8,5 +8,5 @@ import rx.Observable
 
 interface TmdbNetwork {
     @GET("movie/upcoming")
-    fun getUpcomingMovies(@Query("api_key") api_key : String, @Query("language") language : String) : Observable<UpcomingMovies>
+    fun getUpcomingMovies(@Query("api_key") api_key : String, @Query("language") language : String, @Query("page") page: Int) : Observable<UpcomingMovies>
 }

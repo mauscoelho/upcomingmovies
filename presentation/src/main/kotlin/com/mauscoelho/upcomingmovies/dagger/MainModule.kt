@@ -40,7 +40,6 @@ class MainModule(val application: MoviesApplication) {
     fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
                 .baseUrl(BuildConfig.API_TMDB)
-                //.baseUrl(BuildConfig.API_IMAGE_TMDB)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(provideokHttp())
