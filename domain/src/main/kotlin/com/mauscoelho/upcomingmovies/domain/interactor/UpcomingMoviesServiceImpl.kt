@@ -1,18 +1,15 @@
 package com.mauscoelho.upcomingmovies.domain.interactor
 
-import com.mauscoelho.upcomingmovies.domain.boundary.GenresService
 import com.mauscoelho.upcomingmovies.domain.boundary.UpcomingMoviesService
 import com.mauscoelho.upcomingmovies.infraestruture.UpcomingMoviesRepository
 import com.mauscoelho.upcomingmovies.model.Movie
-import com.mauscoelho.upcomingmovies.model.MovieResponse
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
 
 class UpcomingMoviesServiceImpl(
-        val upcomingMoviesRepository: UpcomingMoviesRepository,
-        val genresService: GenresService) : UpcomingMoviesService {
+        val upcomingMoviesRepository: UpcomingMoviesRepository) : UpcomingMoviesService {
 
     override fun getUpcomingMovies(api_key: String, language: String, page: Int): Observable<Movie> {
         return upcomingMoviesRepository.getUpcomingMovies(api_key, language, page)
@@ -27,12 +24,24 @@ class UpcomingMoviesServiceImpl(
                 }
                 .flatMap { items ->
                     Observable.from(items).flatMap {
-                        genresService.fetchGenres(api_key, language, it)
+                        fetchMovie(it, api_key, language)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
                     }
                 }
     }
 
-    override fun getMovie(movieId: Int, api_key: String, language: String): Observable<MovieResponse> {
+    private fun fetchMovie(movie: Movie, api_key: String, language: String): Observable<Movie> {
+        return upcomingMoviesRepository.getMovie(movie.id, api_key, language)
+                .flatMap {
+                    movie.genres = it.genres
+                    movie.overview = it.overview
+                    Observable.just(movie)
+                }
+
+    }
+
+    override fun getMovie(movieId: Int, api_key: String, language: String): Observable<Movie> {
         return upcomingMoviesRepository.getMovie(movieId, api_key, language)
     }
 }

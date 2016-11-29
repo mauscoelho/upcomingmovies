@@ -1,7 +1,7 @@
 package com.mauscoelho.upcomingmovies.infraestruture.network
 
 import com.mauscoelho.upcomingmovies.model.Genres
-import com.mauscoelho.upcomingmovies.model.MovieResponse
+import com.mauscoelho.upcomingmovies.model.Movie
 import com.mauscoelho.upcomingmovies.model.UpcomingMovies
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -17,5 +17,5 @@ interface TmdbNetwork {
     fun getGenres(@Query("api_key") api_key : String, @Query("language") language : String) : Observable<Genres>
 
     @GET("movie/{id}")
-    fun getMovie(@Path("id") movieId: Int, @Query("api_key") api_key : String, @Query("language") language : String) : Observable<MovieResponse>
+    fun getMovie(@Path("id") movieId: Int, @Query("api_key") api_key : String, @Query("language") language : String) : Observable<Movie>
 }

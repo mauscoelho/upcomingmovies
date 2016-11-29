@@ -2,6 +2,7 @@ package com.mauscoelho.upcomingmovies.views.helper
 
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 
 
 class InfiniteScrollListener(
@@ -31,7 +32,7 @@ class InfiniteScrollListener(
             }
             if (!loading && (totalItemCount - visibleItemCount)
                     <= (firstVisibleItem + visibleThreshold)) {
-
+                Log.i("InfiniteScrollListener", "ended")
                 func()
                 loading = true
             }

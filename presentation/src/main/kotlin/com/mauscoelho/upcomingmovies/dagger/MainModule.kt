@@ -3,13 +3,9 @@ package com.mauscoelho.upcomingmovies.dagger
 import android.content.Context
 import com.mauscoelho.upcomingmovies.BuildConfig
 import com.mauscoelho.upcomingmovies.MoviesApplication
-import com.mauscoelho.upcomingmovies.domain.boundary.GenresService
 import com.mauscoelho.upcomingmovies.domain.boundary.UpcomingMoviesService
-import com.mauscoelho.upcomingmovies.domain.interactor.GenreServiceImpl
 import com.mauscoelho.upcomingmovies.domain.interactor.UpcomingMoviesServiceImpl
 import com.mauscoelho.upcomingmovies.infraestruture.UpcomingMoviesRepository
-import com.mauscoelho.upcomingmovies.infraestruture.boundary.GenresRepository
-import com.mauscoelho.upcomingmovies.infraestruture.interactor.GenresRepositoryImpl
 import com.mauscoelho.upcomingmovies.infraestruture.interactor.UpcomingMoviesRepositoryImpl
 import com.mauscoelho.upcomingmovies.infraestruture.network.TmdbNetwork
 import com.mauscoelho.upcomingmovies.views.movies.MoviesPresenter
@@ -22,7 +18,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.GsonConverterFactory
 import retrofit2.Retrofit
 import retrofit2.RxJavaCallAdapterFactory
-import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 
@@ -40,8 +35,8 @@ class MainModule(val application: MoviesApplication) {
     @Provides
     fun provideokHttp(): OkHttpClient {
         val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
-        return OkHttpClient.Builder().addInterceptor(interceptor).connectTimeout(20, TimeUnit.SECONDS).readTimeout(20,TimeUnit.SECONDS).build()
+        interceptor.level = HttpLoggingInterceptor.Level.HEADERS
+        return OkHttpClient.Builder().addInterceptor(interceptor).build()
     }
 
     @Provides
@@ -56,23 +51,14 @@ class MainModule(val application: MoviesApplication) {
 
     @Provides
     fun provideMoviesPresenter(): MoviesPresenter {
-        return MoviesPresenterImpl(provideUpcomingMoviesService(), provideGenresService(), provideLanguage())
+        return MoviesPresenterImpl(provideUpcomingMoviesService(), provideLanguage())
     }
 
     @Provides
     fun provideUpcomingMoviesService(): UpcomingMoviesService {
-        return UpcomingMoviesServiceImpl(provideUpcomingMoviesRepository(), provideGenresService())
+        return UpcomingMoviesServiceImpl(provideUpcomingMoviesRepository())
     }
 
-    @Provides
-    fun provideGenresService(): GenresService {
-        return GenreServiceImpl(provideGenresRepository())
-    }
-
-    @Provides
-    fun provideGenresRepository(): GenresRepository {
-        return GenresRepositoryImpl(provideTmdbNetwork(provideRetrofit()))
-    }
 
     @Provides
     fun provideUpcomingMoviesRepository(): UpcomingMoviesRepository {
