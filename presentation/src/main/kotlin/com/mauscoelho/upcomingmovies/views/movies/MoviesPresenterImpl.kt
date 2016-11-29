@@ -21,7 +21,6 @@ class MoviesPresenterImpl(val upcomingMoviesService: UpcomingMoviesService,
 
     override fun loadMovies() {
         if (currentPage < totalPages) {
-            Log.i("Load","load movies")
             val subscription = upcomingMoviesService.getUpcomingMovies(BuildConfig.API_KEY, language, currentPage + 1)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
