@@ -56,7 +56,7 @@ class MainModule(val application: MoviesApplication) {
 
     @Provides
     fun provideUpcomingMoviesService(): UpcomingMoviesService {
-        return UpcomingMoviesServiceImpl(provideUpcomingMoviesRepository())
+        return UpcomingMoviesServiceImpl(provideUpcomingMoviesRepository(), provideGenresService())
     }
 
     @Provides
