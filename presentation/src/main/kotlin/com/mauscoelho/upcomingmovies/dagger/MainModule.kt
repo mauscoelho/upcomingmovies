@@ -8,17 +8,19 @@ import com.mauscoelho.upcomingmovies.domain.interactor.UpcomingMoviesServiceImpl
 import com.mauscoelho.upcomingmovies.infraestruture.UpcomingMoviesRepository
 import com.mauscoelho.upcomingmovies.infraestruture.interactor.UpcomingMoviesRepositoryImpl
 import com.mauscoelho.upcomingmovies.infraestruture.network.TmdbNetwork
-import com.mauscoelho.upcomingmovies.views.movies.MoviesAdapter
 import com.mauscoelho.upcomingmovies.views.movies.MoviesPresenter
 import com.mauscoelho.upcomingmovies.views.movies.MoviesPresenterImpl
+import com.mauscoelho.upcomingmovies.views.movies.adapters.MoviesAdapter
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.GsonConverterFactory
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.RxJavaCallAdapterFactory
+import rx.subscriptions.CompositeSubscription
 import javax.inject.Singleton
+
 
 @Module
 class MainModule(val application: MoviesApplication) {
@@ -26,9 +28,7 @@ class MainModule(val application: MoviesApplication) {
     @Provides
     @Singleton
     @ForApplication
-    fun provideApplicationContext(): Context {
-        return application
-    }
+    fun provideApplicationContext(): Context = application
 
     @Provides
     fun provideokHttp(): OkHttpClient {
@@ -48,14 +48,17 @@ class MainModule(val application: MoviesApplication) {
     }
 
     @Provides
-    fun provideMoviesPresenter(): MoviesPresenter {
-        return MoviesPresenterImpl(provideUpcomingMoviesService(), provideLanguage())
-    }
+    fun provideMoviesPresenter(): MoviesPresenter = MoviesPresenterImpl(provideUpcomingMoviesService(), provideLanguage(), provideCompositeSubscription())
+
+
+    @Provides
+    fun provideCompositeSubscription(): CompositeSubscription = CompositeSubscription()
 
     @Provides
     fun provideUpcomingMoviesService(): UpcomingMoviesService {
         return UpcomingMoviesServiceImpl(provideUpcomingMoviesRepository())
     }
+
 
     @Provides
     fun provideUpcomingMoviesRepository(): UpcomingMoviesRepository {

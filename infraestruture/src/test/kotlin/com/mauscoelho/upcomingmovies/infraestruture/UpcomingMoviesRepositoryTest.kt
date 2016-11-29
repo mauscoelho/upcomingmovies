@@ -21,26 +21,26 @@ class UpcomingMoviesRepositoryTest : Spek({
         context("Get upcoming movies") {
             fun getMockUpcomingMovies(): Observable<UpcomingMovies> {
                 val movies = arrayOf<Movie>(
-                        Movie(1, "original_title", "poster_path", "overview", "release_date"),
-                        Movie(2, "original_title", "poster_path", "overview", "release_date"),
-                        Movie(3, "original_title", "poster_path", "overview", "release_date"),
-                        Movie(4, "original_title", "poster_path", "overview", "release_date"),
-                        Movie(5, "original_title", "poster_path", "overview", "release_date"),
-                        Movie(6, "original_title", "poster_path", "overview", "release_date"),
-                        Movie(7, "original_title", "poster_path", "overview", "release_date"),
-                        Movie(8, "original_title", "poster_path", "overview", "release_date"),
-                        Movie(9, "original_title", "poster_path", "overview", "release_date"),
-                        Movie(10, "original_title", "poster_path", "overview", "release_date"),
-                        Movie(11, "original_title", "poster_path", "overview", "release_date"),
-                        Movie(12, "original_title", "poster_path", "overview", "release_date"),
-                        Movie(13, "original_title", "poster_path", "overview", "release_date"),
-                        Movie(14, "original_title", "poster_path", "overview", "release_date"),
-                        Movie(15, "original_title", "poster_path", "overview", "release_date"),
-                        Movie(16, "original_title", "poster_path", "overview", "release_date"),
-                        Movie(17, "original_title", "poster_path", "overview", "release_date"),
-                        Movie(18, "original_title", "poster_path", "overview", "release_date"),
-                        Movie(19, "original_title", "poster_path", "overview", "release_date"),
-                        Movie(20, "original_title", "poster_path", "overview", "release_date")
+                        Movie(1, 1,1,"original_title", "poster_path", "overview", "release_date", arrayOf(), arrayOf()),
+                        Movie(2, 1,1,"original_title", "poster_path", "overview", "release_date", arrayOf(), arrayOf()),
+                        Movie(3, 1,1,"original_title", "poster_path", "overview", "release_date", arrayOf(), arrayOf()),
+                        Movie(4, 1,1,"original_title", "poster_path", "overview", "release_date", arrayOf(), arrayOf()),
+                        Movie(5, 1,1,"original_title", "poster_path", "overview", "release_date", arrayOf(), arrayOf()),
+                        Movie(6, 1,1,"original_title", "poster_path", "overview", "release_date", arrayOf(), arrayOf()),
+                        Movie(7, 1,1,"original_title", "poster_path", "overview", "release_date", arrayOf(), arrayOf()),
+                        Movie(8, 1,1,"original_title", "poster_path", "overview", "release_date", arrayOf(), arrayOf()),
+                        Movie(9, 1,1,"original_title", "poster_path", "overview", "release_date", arrayOf(), arrayOf()),
+                        Movie(10, 1,1,"original_title", "poster_path", "overview", "release_date", arrayOf(), arrayOf()),
+                        Movie(11, 1,1,"original_title", "poster_path", "overview", "release_date", arrayOf(), arrayOf()),
+                        Movie(12, 1,1,"original_title", "poster_path", "overview", "release_date", arrayOf(), arrayOf()),
+                        Movie(13, 1,1,"original_title", "poster_path", "overview", "release_date", arrayOf(), arrayOf()),
+                        Movie(14, 1,1,"original_title", "poster_path", "overview", "release_date", arrayOf(), arrayOf()),
+                        Movie(15, 1,1,"original_title", "poster_path", "overview", "release_date", arrayOf(), arrayOf()),
+                        Movie(16, 1,1,"original_title", "poster_path", "overview", "release_date", arrayOf(), arrayOf()),
+                        Movie(17, 1,1,"original_title", "poster_path", "overview", "release_date", arrayOf(), arrayOf()),
+                        Movie(18, 1,1,"original_title", "poster_path", "overview", "release_date", arrayOf(), arrayOf()),
+                        Movie(19, 1,1,"original_title", "poster_path", "overview", "release_date", arrayOf(), arrayOf()),
+                        Movie(20, 1,1,"original_title", "poster_path", "overview", "release_date", arrayOf(), arrayOf())
                 )
                 return Observable.just(UpcomingMovies(1, movies, 4, 80))
             }

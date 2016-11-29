@@ -8,6 +8,7 @@ import com.mauscoelho.upcomingmovies.MoviesApplication
 import com.mauscoelho.upcomingmovies.R
 import com.mauscoelho.upcomingmovies.model.Movie
 import com.mauscoelho.upcomingmovies.views.helper.InfiniteScrollListener
+import com.mauscoelho.upcomingmovies.views.movies.adapters.MoviesAdapter
 import kotlinx.android.synthetic.main.activity_movies.*
 import javax.inject.Inject
 
@@ -38,5 +39,10 @@ class MoviesActivity : AppCompatActivity(), MoviesView {
 
     override fun hideLoading() {
         progress_bar.visibility = View.GONE
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        moviesPresenter.clearSubscriptions()
     }
 }

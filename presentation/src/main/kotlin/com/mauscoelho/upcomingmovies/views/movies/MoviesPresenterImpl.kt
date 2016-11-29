@@ -1,13 +1,15 @@
 package com.mauscoelho.upcomingmovies.views.movies
 
+import android.util.Log
 import com.mauscoelho.upcomingmovies.BuildConfig
 import com.mauscoelho.upcomingmovies.domain.boundary.UpcomingMoviesService
-import okhttp3.internal.Internal.logger
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import rx.subscriptions.CompositeSubscription
 
 class MoviesPresenterImpl(val upcomingMoviesService: UpcomingMoviesService,
-                          val language: String) : MoviesPresenter {
+                          val language: String,
+                          val compositeSubscription :CompositeSubscription) : MoviesPresenter {
 
     lateinit var moviesView: MoviesView
     var currentPage = 0
@@ -18,19 +20,24 @@ class MoviesPresenterImpl(val upcomingMoviesService: UpcomingMoviesService,
     }
 
     override fun loadMovies() {
-        if (currentPage < totalPages)
-            upcomingMoviesService.getUpcomingMovies(BuildConfig.API_KEY, language, currentPage + 1)
+        if (currentPage < totalPages) {
+            val subscription = upcomingMoviesService.getUpcomingMovies(BuildConfig.API_KEY, language, currentPage + 1)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
+                    .doOnCompleted { moviesView.hideLoading() }
                     .subscribe({
-                        currentPage = it.page
-                        totalPages = it.total_pages
-                        it.results.map {
-                            moviesView.addMovie(it)
-                        }
-                        moviesView.hideLoading()
+                        currentPage = it.currentPage
+                        totalPages = it.totalPages
+                        moviesView.addMovie(it)
                     }, {
-                        logger.info("error:" + it.message)
+                        Log.i("Error","error: ${it.message}")
                     })
+            compositeSubscription.add(subscription)
+        }
     }
+
+    override fun clearSubscriptions() {
+        compositeSubscription.clear()
+    }
+
 }
