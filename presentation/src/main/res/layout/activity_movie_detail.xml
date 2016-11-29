@@ -47,6 +47,7 @@
         android:layout_margin="@dimen/fab_margin"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
+        app:fabSize="mini"
         android:src="@drawable/ic_movie" />
 
 </android.support.design.widget.CoordinatorLayout>
