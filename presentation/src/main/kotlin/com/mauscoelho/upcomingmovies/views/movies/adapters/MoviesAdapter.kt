@@ -36,7 +36,7 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: Movie) = with(itemView) {
-            item_movie_txt.text = item.original_title
+            item_movie_txt.text = item.title
             item_movie_release_date.text = item.release_date
             Glide.with(itemView.context).load(BuildConfig.API_IMAGE_TMDB + item.poster_path).centerCrop().crossFade().into(item_movie_poster)
 

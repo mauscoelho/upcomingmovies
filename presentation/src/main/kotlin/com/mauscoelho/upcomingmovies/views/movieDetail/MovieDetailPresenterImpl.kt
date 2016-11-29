@@ -13,7 +13,7 @@ class MovieDetailPresenterImpl : MovieDetailPresenter {
     }
 
     fun bind(movie: Movie) {
-        movieDetailView.setTitle(movie.original_title)
+        movieDetailView.setTitle(movie.title)
         movieDetailView.setHeaderImage(movie.backdrop_path)
         movieDetailView.setOverview(movie.overview)
     }

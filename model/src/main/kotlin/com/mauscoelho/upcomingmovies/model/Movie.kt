@@ -9,6 +9,7 @@ data class Movie(
         var totalPages: Int,
         var currentPage : Int,
         val id: Int,
+        val title: String,
         val original_title: String,
         val poster_path: String,
         val backdrop_path: String,
@@ -23,7 +24,7 @@ data class Movie(
         }
     }
 
-    constructor(source: Parcel) : this(source.readInt(), source.readInt(), source.readInt(), source.readString(), source.readString(), source.readString(), source.readString(), source.readString(), source.createTypedArrayList(Genre.CREATOR), ArrayList<Int>().apply{ source.readList(this, Int::class.java.classLoader) })
+    constructor(source: Parcel) : this(source.readInt(), source.readInt(), source.readInt(), source.readString(), source.readString(), source.readString(), source.readString(), source.readString(), source.readString(), source.createTypedArrayList(Genre.CREATOR), ArrayList<Int>().apply{ source.readList(this, Int::class.java.classLoader) })
 
     override fun describeContents() = 0
 
@@ -31,6 +32,7 @@ data class Movie(
         dest?.writeInt(totalPages)
         dest?.writeInt(currentPage)
         dest?.writeInt(id)
+        dest?.writeString(title)
         dest?.writeString(original_title)
         dest?.writeString(poster_path)
         dest?.writeString(backdrop_path)
