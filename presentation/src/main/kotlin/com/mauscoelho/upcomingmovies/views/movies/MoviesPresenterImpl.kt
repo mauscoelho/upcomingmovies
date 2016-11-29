@@ -8,12 +8,12 @@ import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
 
 class MoviesPresenterImpl(val upcomingMoviesService: UpcomingMoviesService,
-                          val language: String) : MoviesPresenter {
+                          val language: String,
+                          val compositeSubscription :CompositeSubscription) : MoviesPresenter {
 
     lateinit var moviesView: MoviesView
     var currentPage = 0
     var totalPages = 1
-    var compositeSubscription = CompositeSubscription()
 
     override fun injectView(moviesView: MoviesView) {
         this.moviesView = moviesView

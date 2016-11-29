@@ -18,6 +18,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.GsonConverterFactory
 import retrofit2.Retrofit
 import retrofit2.RxJavaCallAdapterFactory
+import rx.subscriptions.CompositeSubscription
 import javax.inject.Singleton
 
 
@@ -27,10 +28,7 @@ class MainModule(val application: MoviesApplication) {
     @Provides
     @Singleton
     @ForApplication
-    fun provideApplicationContext(): Context {
-        return application
-    }
-
+    fun provideApplicationContext(): Context = application
 
     @Provides
     fun provideokHttp(): OkHttpClient {
@@ -50,9 +48,11 @@ class MainModule(val application: MoviesApplication) {
     }
 
     @Provides
-    fun provideMoviesPresenter(): MoviesPresenter {
-        return MoviesPresenterImpl(provideUpcomingMoviesService(), provideLanguage())
-    }
+    fun provideMoviesPresenter(): MoviesPresenter = MoviesPresenterImpl(provideUpcomingMoviesService(), provideLanguage(), provideCompositeSubscription())
+
+
+    @Provides
+    fun provideCompositeSubscription(): CompositeSubscription = CompositeSubscription()
 
     @Provides
     fun provideUpcomingMoviesService(): UpcomingMoviesService {
