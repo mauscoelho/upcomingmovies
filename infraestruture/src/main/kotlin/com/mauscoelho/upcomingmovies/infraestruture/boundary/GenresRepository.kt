@@ -5,5 +5,5 @@ import rx.Observable
 
 
 interface GenresRepository {
-    fun getGenres(api_key: String, language: String) : Observable<Genres>
+    fun getGenres(api_key: String, language: String, ids :Array<Int>) : Observable<Genres>
 }

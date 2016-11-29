@@ -1,9 +1,9 @@
 package com.mauscoelho.upcomingmovies.views.movies
 
+import android.util.Log
 import com.mauscoelho.upcomingmovies.BuildConfig
 import com.mauscoelho.upcomingmovies.domain.boundary.GenresService
 import com.mauscoelho.upcomingmovies.domain.boundary.UpcomingMoviesService
-import okhttp3.internal.Internal.logger
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
@@ -22,6 +22,15 @@ class MoviesPresenterImpl(val upcomingMoviesService: UpcomingMoviesService,
     }
 
     override fun loadMovies() {
+//        upcomingMoviesService.getMovie(346672, BuildConfig.API_KEY, language)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe({
+//                    Log.i("Teste","${it.original_title}")
+//                }, {
+//                    Log.i("Teste","error:" + it.message)
+//                })
+
         if (currentPage < totalPages) {
             val subscription = upcomingMoviesService.getUpcomingMovies(BuildConfig.API_KEY, language, currentPage + 1)
                     .subscribeOn(Schedulers.io())
@@ -32,7 +41,7 @@ class MoviesPresenterImpl(val upcomingMoviesService: UpcomingMoviesService,
                         totalPages = it.totalPages
                         moviesView.addMovie(it)
                     }, {
-                        logger.info("error:" + it.message)
+                        Log.i("Error","error: ${it.message}")
                     })
             compositeSubscription.add(subscription)
         }

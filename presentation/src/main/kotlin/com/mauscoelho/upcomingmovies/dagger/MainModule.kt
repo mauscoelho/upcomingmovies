@@ -8,6 +8,8 @@ import com.mauscoelho.upcomingmovies.domain.boundary.UpcomingMoviesService
 import com.mauscoelho.upcomingmovies.domain.interactor.GenreServiceImpl
 import com.mauscoelho.upcomingmovies.domain.interactor.UpcomingMoviesServiceImpl
 import com.mauscoelho.upcomingmovies.infraestruture.UpcomingMoviesRepository
+import com.mauscoelho.upcomingmovies.infraestruture.boundary.GenresRepository
+import com.mauscoelho.upcomingmovies.infraestruture.interactor.GenresRepositoryImpl
 import com.mauscoelho.upcomingmovies.infraestruture.interactor.UpcomingMoviesRepositoryImpl
 import com.mauscoelho.upcomingmovies.infraestruture.network.TmdbNetwork
 import com.mauscoelho.upcomingmovies.views.movies.MoviesPresenter
@@ -17,10 +19,12 @@ import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.GsonConverterFactory
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.RxJavaCallAdapterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+
 
 @Module
 class MainModule(val application: MoviesApplication) {
@@ -32,11 +36,12 @@ class MainModule(val application: MoviesApplication) {
         return application
     }
 
+
     @Provides
     fun provideokHttp(): OkHttpClient {
         val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.HEADERS
-        return OkHttpClient.Builder().addInterceptor(interceptor).build()
+        interceptor.level = HttpLoggingInterceptor.Level.BODY
+        return OkHttpClient.Builder().addInterceptor(interceptor).connectTimeout(20, TimeUnit.SECONDS).readTimeout(20,TimeUnit.SECONDS).build()
     }
 
     @Provides
@@ -61,7 +66,12 @@ class MainModule(val application: MoviesApplication) {
 
     @Provides
     fun provideGenresService(): GenresService {
-        return GenreServiceImpl()
+        return GenreServiceImpl(provideGenresRepository())
+    }
+
+    @Provides
+    fun provideGenresRepository(): GenresRepository {
+        return GenresRepositoryImpl(provideTmdbNetwork(provideRetrofit()))
     }
 
     @Provides

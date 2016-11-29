@@ -4,6 +4,7 @@ import com.mauscoelho.upcomingmovies.domain.boundary.GenresService
 import com.mauscoelho.upcomingmovies.domain.boundary.UpcomingMoviesService
 import com.mauscoelho.upcomingmovies.infraestruture.UpcomingMoviesRepository
 import com.mauscoelho.upcomingmovies.model.Movie
+import com.mauscoelho.upcomingmovies.model.MovieResponse
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -29,5 +30,9 @@ class UpcomingMoviesServiceImpl(
                         genresService.fetchGenres(api_key, language, it)
                     }
                 }
+    }
+
+    override fun getMovie(movieId: Int, api_key: String, language: String): Observable<MovieResponse> {
+        return upcomingMoviesRepository.getMovie(movieId, api_key, language)
     }
 }

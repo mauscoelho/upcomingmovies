@@ -2,7 +2,7 @@ package com.mauscoelho.upcomingmovies.views.helper
 
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import okhttp3.internal.Internal.logger
+
 
 class InfiniteScrollListener(
         val func: () -> Unit,
@@ -31,7 +31,7 @@ class InfiniteScrollListener(
             }
             if (!loading && (totalItemCount - visibleItemCount)
                     <= (firstVisibleItem + visibleThreshold)) {
-                logger.info("End reached")
+
                 func()
                 loading = true
             }
