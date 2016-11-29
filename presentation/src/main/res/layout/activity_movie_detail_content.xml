@@ -8,10 +8,18 @@
     tools:context="com.mauscoelho.upcomingmovies.views.movieDetail.MovieDetailActivity"
     tools:showIn="@layout/activity_movie_detail">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text" />
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:id="@+id/activity_movie_detail_overview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            />
+
+    </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>
