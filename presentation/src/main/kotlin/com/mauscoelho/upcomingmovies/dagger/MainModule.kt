@@ -6,6 +6,8 @@ import com.mauscoelho.upcomingmovies.MoviesApplication
 import com.mauscoelho.upcomingmovies.domain.boundary.UpcomingMoviesService
 import com.mauscoelho.upcomingmovies.domain.interactor.UpcomingMoviesServiceImpl
 import com.mauscoelho.upcomingmovies.infraestruture.UpcomingMoviesRepository
+import com.mauscoelho.upcomingmovies.infraestruture.boundary.GenreRepository
+import com.mauscoelho.upcomingmovies.infraestruture.interactor.GenreRepositoryImpl
 import com.mauscoelho.upcomingmovies.infraestruture.interactor.UpcomingMoviesRepositoryImpl
 import com.mauscoelho.upcomingmovies.infraestruture.network.TmdbNetwork
 import com.mauscoelho.upcomingmovies.views.movieDetail.MovieDetailPresenter
@@ -58,10 +60,13 @@ class MainModule(val application: MoviesApplication) {
     fun provideCompositeSubscription(): CompositeSubscription = CompositeSubscription()
 
     @Provides
-    fun provideUpcomingMoviesService(): UpcomingMoviesService = UpcomingMoviesServiceImpl(provideUpcomingMoviesRepository())
+    fun provideUpcomingMoviesService(): UpcomingMoviesService = UpcomingMoviesServiceImpl(provideUpcomingMoviesRepository(),provideGenreRepository())
 
     @Provides
     fun provideUpcomingMoviesRepository(): UpcomingMoviesRepository = UpcomingMoviesRepositoryImpl(provideTmdbNetwork(provideRetrofit()))
+
+    @Provides
+    fun provideGenreRepository(): GenreRepository = GenreRepositoryImpl()
 
     @Provides
     fun provideTmdbNetwork(retrofit: Retrofit): TmdbNetwork = retrofit.create(TmdbNetwork::class.java)
