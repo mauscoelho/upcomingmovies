@@ -8,8 +8,10 @@ import com.mauscoelho.upcomingmovies.domain.boundary.UpcomingMoviesService
 import com.mauscoelho.upcomingmovies.domain.interactor.GenreServiceImpl
 import com.mauscoelho.upcomingmovies.domain.interactor.UpcomingMoviesServiceImpl
 import com.mauscoelho.upcomingmovies.infrastructure.boundary.GenreRepository
+import com.mauscoelho.upcomingmovies.infrastructure.boundary.SearchRepository
 import com.mauscoelho.upcomingmovies.infrastructure.boundary.UpcomingMoviesRepository
 import com.mauscoelho.upcomingmovies.infrastructure.interactor.GenreRepositoryImpl
+import com.mauscoelho.upcomingmovies.infrastructure.interactor.SearchRepositoryImpl
 import com.mauscoelho.upcomingmovies.infrastructure.interactor.UpcomingMoviesRepositoryImpl
 import com.mauscoelho.upcomingmovies.infrastructure.network.TmdbNetwork
 import com.mauscoelho.upcomingmovies.views.movieDetail.MovieDetailPresenter
@@ -62,7 +64,7 @@ class MainModule(val application: MoviesApplication) {
     fun provideCompositeSubscription(): CompositeSubscription = CompositeSubscription()
 
     @Provides
-    fun provideUpcomingMoviesService(): UpcomingMoviesService = UpcomingMoviesServiceImpl(provideUpcomingMoviesRepository(),provideGenreRepository())
+    fun provideUpcomingMoviesService(): UpcomingMoviesService = UpcomingMoviesServiceImpl(provideUpcomingMoviesRepository(),provideGenreRepository(), provideSearchRepository())
 
     @Provides
     fun provideGenreService(): GenreService = GenreServiceImpl(provideGenreRepository())
@@ -70,7 +72,11 @@ class MainModule(val application: MoviesApplication) {
     @Provides
     fun provideUpcomingMoviesRepository(): UpcomingMoviesRepository = UpcomingMoviesRepositoryImpl(provideTmdbNetwork(provideRetrofit()))
 
+    @Provides
     fun provideGenreRepository(): GenreRepository = GenreRepositoryImpl(provideTmdbNetwork(provideRetrofit()),provideGenresCollection())
+
+    @Provides
+    fun provideSearchRepository(): SearchRepository = SearchRepositoryImpl(provideTmdbNetwork(provideRetrofit()))
 
     @Provides
     fun provideTmdbNetwork(retrofit: Retrofit): TmdbNetwork = retrofit.create(TmdbNetwork::class.java)

@@ -2,6 +2,7 @@ package com.mauscoelho.upcomingmovies.domain.interactor
 
 import com.mauscoelho.upcomingmovies.domain.boundary.UpcomingMoviesService
 import com.mauscoelho.upcomingmovies.infrastructure.boundary.GenreRepository
+import com.mauscoelho.upcomingmovies.infrastructure.boundary.SearchRepository
 import com.mauscoelho.upcomingmovies.infrastructure.boundary.UpcomingMoviesRepository
 import com.mauscoelho.upcomingmovies.model.Movie
 import rx.Observable
@@ -11,10 +12,11 @@ import rx.schedulers.Schedulers
 
 class UpcomingMoviesServiceImpl(
         val upcomingMoviesRepository: UpcomingMoviesRepository,
-        val genreRepository: GenreRepository) : UpcomingMoviesService {
+        val genreRepository: GenreRepository,
+        val searchRepository: SearchRepository) : UpcomingMoviesService {
 
-    override fun getUpcomingMovies(api_key: String, language: String, page: Int): Observable<Movie> {
-        return upcomingMoviesRepository.getUpcomingMovies(api_key, language, page)
+    override fun getUpcomingMovies(apiKey: String, language: String, page: Int): Observable<Movie> {
+        return upcomingMoviesRepository.getUpcomingMovies(apiKey, language, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { item ->
@@ -26,7 +28,7 @@ class UpcomingMoviesServiceImpl(
                 }
                 .flatMap { items ->
                     Observable.from(items).flatMap {
-                        fetchGenre(it, api_key, language)
+                        fetchGenre(it, apiKey, language)
                     }
                 }
     }
@@ -44,5 +46,23 @@ class UpcomingMoviesServiceImpl(
 
     override fun getMovie(movieId: Int, api_key: String, language: String): Observable<Movie> {
         return upcomingMoviesRepository.getMovie(movieId, api_key, language)
+    }
+
+    override fun searchMovies(query: String, apiKey: String, language: String, page: Int): Observable<Movie> {
+        return searchRepository.search(query, apiKey, language, page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map { item ->
+                    item.results.map {
+                        it.currentPage = item.page
+                        it.totalPages = item.total_pages
+                        it
+                    }
+                }
+                .flatMap { items ->
+                    Observable.from(items).flatMap {
+                        fetchGenre(it, apiKey, language)
+                    }
+                }
     }
 }

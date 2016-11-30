@@ -5,4 +5,5 @@ interface MoviesPresenter {
     fun loadMovies()
     fun clearSubscriptions()
     fun firstLoadMovies()
+    fun search(query: String)
 }

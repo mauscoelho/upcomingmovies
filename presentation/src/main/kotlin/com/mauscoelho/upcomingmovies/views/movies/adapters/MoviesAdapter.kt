@@ -17,7 +17,7 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ItemViewHolder>() {
     var movies = mutableListOf<Movie>()
 
     override fun onBindViewHolder(holder: ItemViewHolder?, position: Int) {
-        holder?.bind(movies.get(position), position)
+        holder?.bind(movies.get(position))
     }
 
     override fun getItemCount(): Int {
@@ -37,8 +37,8 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ItemViewHolder>() {
 
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(item: Movie, position: Int) = with(itemView) {
-            item_movie_txt.text = position.toString() //item.title
+        fun bind(item: Movie) = with(itemView) {
+            item_movie_txt.text = item.title
             item_movie_release_date.text = item.release_date
             Glide.with(itemView.context).load(BuildConfig.API_IMAGE_TMDB + item.poster_path).centerCrop().crossFade().into(item_movie_poster)
 
@@ -53,5 +53,10 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ItemViewHolder>() {
             intent.putExtra("movie", movie)
             itemView.context.startActivity(intent)
         }
+    }
+
+    fun clear() {
+        movies.clear()
+        this.notifyDataSetChanged()
     }
 }
