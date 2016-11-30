@@ -6,10 +6,11 @@ import com.mauscoelho.upcomingmovies.domain.boundary.UpcomingMoviesService
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
+import java.util.concurrent.TimeUnit
 
 class MoviesPresenterImpl(val upcomingMoviesService: UpcomingMoviesService,
                           val language: String,
-                          val compositeSubscription :CompositeSubscription) : MoviesPresenter {
+                          val compositeSubscription: CompositeSubscription) : MoviesPresenter {
 
     lateinit var moviesView: MoviesView
     var currentPage = 0
@@ -30,7 +31,7 @@ class MoviesPresenterImpl(val upcomingMoviesService: UpcomingMoviesService,
                         totalPages = it.totalPages
                         moviesView.addMovie(it)
                     }, {
-                        Log.i("Error","error: ${it.message}")
+                        Log.i("Error", "error: ${it.message}")
                     })
             compositeSubscription.add(subscription)
         }
