@@ -3,13 +3,15 @@ package com.mauscoelho.upcomingmovies.dagger
 import android.content.Context
 import com.mauscoelho.upcomingmovies.BuildConfig
 import com.mauscoelho.upcomingmovies.MoviesApplication
+import com.mauscoelho.upcomingmovies.domain.boundary.GenreService
 import com.mauscoelho.upcomingmovies.domain.boundary.UpcomingMoviesService
+import com.mauscoelho.upcomingmovies.domain.interactor.GenreServiceImpl
 import com.mauscoelho.upcomingmovies.domain.interactor.UpcomingMoviesServiceImpl
-import com.mauscoelho.upcomingmovies.infraestruture.UpcomingMoviesRepository
-import com.mauscoelho.upcomingmovies.infraestruture.boundary.GenreRepository
-import com.mauscoelho.upcomingmovies.infraestruture.interactor.GenreRepositoryImpl
-import com.mauscoelho.upcomingmovies.infraestruture.interactor.UpcomingMoviesRepositoryImpl
-import com.mauscoelho.upcomingmovies.infraestruture.network.TmdbNetwork
+import com.mauscoelho.upcomingmovies.infrastructure.boundary.GenreRepository
+import com.mauscoelho.upcomingmovies.infrastructure.boundary.UpcomingMoviesRepository
+import com.mauscoelho.upcomingmovies.infrastructure.interactor.GenreRepositoryImpl
+import com.mauscoelho.upcomingmovies.infrastructure.interactor.UpcomingMoviesRepositoryImpl
+import com.mauscoelho.upcomingmovies.infrastructure.network.TmdbNetwork
 import com.mauscoelho.upcomingmovies.views.movieDetail.MovieDetailPresenter
 import com.mauscoelho.upcomingmovies.views.movieDetail.MovieDetailPresenterImpl
 import com.mauscoelho.upcomingmovies.views.movies.MoviesPresenter
@@ -51,7 +53,7 @@ class MainModule(val application: MoviesApplication) {
                     .build()
 
     @Provides
-    fun provideMoviesPresenter(): MoviesPresenter = MoviesPresenterImpl(provideUpcomingMoviesService(), provideLanguage(), provideCompositeSubscription())
+    fun provideMoviesPresenter(): MoviesPresenter = MoviesPresenterImpl(provideUpcomingMoviesService(), provideLanguage(), provideCompositeSubscription(), provideGenreService())
 
     @Provides
     fun provideMovieDetailPresenter(): MovieDetailPresenter = MovieDetailPresenterImpl()
@@ -63,8 +65,13 @@ class MainModule(val application: MoviesApplication) {
     fun provideUpcomingMoviesService(): UpcomingMoviesService = UpcomingMoviesServiceImpl(provideUpcomingMoviesRepository(),provideGenreRepository())
 
     @Provides
+    fun provideGenreService(): GenreService = GenreServiceImpl(provideGenreRepository())
+
+    @Provides
     fun provideUpcomingMoviesRepository(): UpcomingMoviesRepository = UpcomingMoviesRepositoryImpl(provideTmdbNetwork(provideRetrofit()))
 
+    @Singleton
+    @ForApplication
     @Provides
     fun provideGenreRepository(): GenreRepository = GenreRepositoryImpl(provideTmdbNetwork(provideRetrofit()))
 

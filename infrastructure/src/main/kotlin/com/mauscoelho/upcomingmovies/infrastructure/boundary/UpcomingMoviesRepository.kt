@@ -1,4 +1,4 @@
-package com.mauscoelho.upcomingmovies.infraestruture
+package com.mauscoelho.upcomingmovies.infrastructure.boundary
 
 import com.mauscoelho.upcomingmovies.model.Movie
 import com.mauscoelho.upcomingmovies.model.UpcomingMovies

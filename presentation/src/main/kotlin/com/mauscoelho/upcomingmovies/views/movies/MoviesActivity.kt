@@ -30,7 +30,7 @@ class MoviesActivity : AppCompatActivity(), MoviesView {
     private fun initialize() {
         rv_movies.adapter = moviesAdapter
         rv_movies.addOnScrollListener(InfiniteScrollListener({ moviesPresenter.loadMovies() }, rv_movies.layoutManager as GridLayoutManager))
-        moviesPresenter.loadMovies()
+        moviesPresenter.firstLoadMovies()
     }
 
     override fun addMovie(movie: Movie) {

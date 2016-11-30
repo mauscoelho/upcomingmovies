@@ -1,4 +1,4 @@
-package com.mauscoelho.upcomingmovies.infraestruture.network
+package com.mauscoelho.upcomingmovies.infrastructure.network
 
 import com.mauscoelho.upcomingmovies.model.Genres
 import com.mauscoelho.upcomingmovies.model.Movie

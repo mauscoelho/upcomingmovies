@@ -1,8 +1,8 @@
 package com.mauscoelho.upcomingmovies.domain.interactor
 
 import com.mauscoelho.upcomingmovies.domain.boundary.UpcomingMoviesService
-import com.mauscoelho.upcomingmovies.infraestruture.UpcomingMoviesRepository
-import com.mauscoelho.upcomingmovies.infraestruture.boundary.GenreRepository
+import com.mauscoelho.upcomingmovies.infrastructure.boundary.GenreRepository
+import com.mauscoelho.upcomingmovies.infrastructure.boundary.UpcomingMoviesRepository
 import com.mauscoelho.upcomingmovies.model.Movie
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers

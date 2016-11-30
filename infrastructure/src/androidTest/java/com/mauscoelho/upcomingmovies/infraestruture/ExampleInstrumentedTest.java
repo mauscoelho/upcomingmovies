@@ -1,4 +1,4 @@
-package com.mauscoelho.upcomingmovies.infraestruture;
+package com.mauscoelho.upcomingmovies.infrastructure;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

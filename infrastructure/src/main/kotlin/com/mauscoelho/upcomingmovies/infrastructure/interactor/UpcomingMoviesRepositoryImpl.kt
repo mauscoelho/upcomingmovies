@@ -1,7 +1,7 @@
-package com.mauscoelho.upcomingmovies.infraestruture.interactor
+package com.mauscoelho.upcomingmovies.infrastructure.interactor
 
-import com.mauscoelho.upcomingmovies.infraestruture.UpcomingMoviesRepository
-import com.mauscoelho.upcomingmovies.infraestruture.network.TmdbNetwork
+import com.mauscoelho.upcomingmovies.infrastructure.boundary.UpcomingMoviesRepository
+import com.mauscoelho.upcomingmovies.infrastructure.network.TmdbNetwork
 import com.mauscoelho.upcomingmovies.model.Movie
 import com.mauscoelho.upcomingmovies.model.UpcomingMovies
 import rx.Observable
