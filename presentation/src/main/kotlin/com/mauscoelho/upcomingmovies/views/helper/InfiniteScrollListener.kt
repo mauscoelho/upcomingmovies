@@ -24,4 +24,8 @@ class InfiniteScrollListener(
         }
     }
 
+    fun reset(){
+        previousTotal = 0
+    }
+
 }

@@ -7,4 +7,5 @@ interface MoviesView {
     fun hideLoading()
     fun clearMovies()
     fun showLoading()
+    fun resetInfiniteScroll()
 }

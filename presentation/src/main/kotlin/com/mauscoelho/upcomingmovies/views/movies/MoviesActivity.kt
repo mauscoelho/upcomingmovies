@@ -22,6 +22,7 @@ class MoviesActivity : AppCompatActivity(), MoviesView, SearchView.OnQueryTextLi
 
     @Inject lateinit var moviesPresenter: MoviesPresenter
     @Inject lateinit var moviesAdapter: MoviesAdapter
+    lateinit var infiniteScroll : InfiniteScrollListener
 
     @Override
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +43,8 @@ class MoviesActivity : AppCompatActivity(), MoviesView, SearchView.OnQueryTextLi
 
     private fun initialize() {
         rv_movies.adapter = moviesAdapter
-        rv_movies.addOnScrollListener(InfiniteScrollListener({ moviesPresenter.loadMovies() }, rv_movies.layoutManager as GridLayoutManager))
+        infiniteScroll = InfiniteScrollListener({ moviesPresenter.loadMovies() }, rv_movies.layoutManager as GridLayoutManager)
+        rv_movies.addOnScrollListener(infiniteScroll)
         moviesPresenter.firstLoadMovies()
     }
 
@@ -67,10 +69,14 @@ class MoviesActivity : AppCompatActivity(), MoviesView, SearchView.OnQueryTextLi
         moviesAdapter.clear()
     }
 
+    override fun resetInfiniteScroll() {
+        infiniteScroll.reset()
+    }
+
     override fun onQueryTextSubmit(query: String): Boolean = false
 
-    override fun onQueryTextChange(newText: String): Boolean {
-        moviesPresenter.search(newText)
+    override fun onQueryTextChange(query: String): Boolean {
+        moviesPresenter.search(query)
         return false
     }
 }

@@ -17,6 +17,7 @@ class MoviesPresenterImpl(val upcomingMoviesService: UpcomingMoviesService,
     var currentPage = 0
     var totalPages = 1
     var isSearch = false
+    var lastQuery = ""
 
     override fun injectView(moviesView: MoviesView) {
         this.moviesView = moviesView
@@ -33,6 +34,13 @@ class MoviesPresenterImpl(val upcomingMoviesService: UpcomingMoviesService,
     }
 
     override fun loadMovies() {
+        when (isSearch){
+            false -> loadUpcomingMovies()
+            true -> searchMovie()
+        }
+    }
+
+    private fun loadUpcomingMovies() {
         val subscription = upcomingMoviesService.getUpcomingMovies(BuildConfig.API_KEY, language, currentPage + 1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -51,26 +59,41 @@ class MoviesPresenterImpl(val upcomingMoviesService: UpcomingMoviesService,
         compositeSubscription.clear()
     }
 
-    override fun search(newText: String) {
-        when (newText) {
+    override fun search(query: String) {
+        currentPage = 0
+        totalPages = 1
+        moviesView.resetInfiniteScroll()
+        when (query) {
             "" -> resetMovies()
-            else -> searchMovie(newText)
+            else -> {
+                moviesView.clearMovies()
+                moviesView.showLoading()
+                searchMovie(query)
+            }
         }
     }
 
     private fun resetMovies() {
         isSearch = false
-        currentPage = 0
-        totalPages = 1
         moviesView.clearMovies()
         moviesView.showLoading()
         loadMovies()
     }
 
-    private fun searchMovie(newText: String) {
+    private fun searchMovie(query: String = lastQuery) {
+        lastQuery = query
         isSearch = true
-        moviesView.clearMovies()
-        moviesView.showLoading()
-        Log.i("teste", "search $newText isSearch $isSearch")
+        val subscription = upcomingMoviesService.searchMovies(query, BuildConfig.API_KEY, language, currentPage + 1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnCompleted { moviesView.hideLoading() }
+                .subscribe({
+                    currentPage = it.currentPage
+                    totalPages = it.totalPages
+                    moviesView.addMovie(it)
+                }, {
+                    Log.i("Error", "error: ${it.message}")
+                })
+        compositeSubscription.add(subscription)
     }
 }

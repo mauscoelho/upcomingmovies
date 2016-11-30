@@ -2,6 +2,7 @@ package com.mauscoelho.upcomingmovies.domain.interactor
 
 import com.mauscoelho.upcomingmovies.domain.boundary.UpcomingMoviesService
 import com.mauscoelho.upcomingmovies.infrastructure.boundary.GenreRepository
+import com.mauscoelho.upcomingmovies.infrastructure.boundary.SearchRepository
 import com.mauscoelho.upcomingmovies.infrastructure.boundary.UpcomingMoviesRepository
 import com.mauscoelho.upcomingmovies.model.Movie
 import rx.Observable
@@ -11,7 +12,8 @@ import rx.schedulers.Schedulers
 
 class UpcomingMoviesServiceImpl(
         val upcomingMoviesRepository: UpcomingMoviesRepository,
-        val genreRepository: GenreRepository) : UpcomingMoviesService {
+        val genreRepository: GenreRepository,
+        val searchRepository: SearchRepository) : UpcomingMoviesService {
 
     override fun getUpcomingMovies(apiKey: String, language: String, page: Int): Observable<Movie> {
         return upcomingMoviesRepository.getUpcomingMovies(apiKey, language, page)
@@ -46,7 +48,21 @@ class UpcomingMoviesServiceImpl(
         return upcomingMoviesRepository.getMovie(movieId, api_key, language)
     }
 
-    override fun searchMovies(apiKey: String, language: String, i: Int): Observable<Movie> {
-        return Observable.just(null)
+    override fun searchMovies(query: String, apiKey: String, language: String, page: Int): Observable<Movie> {
+        return searchRepository.search(query, apiKey, language, page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map { item ->
+                    item.results.map {
+                        it.currentPage = item.page
+                        it.totalPages = item.total_pages
+                        it
+                    }
+                }
+                .flatMap { items ->
+                    Observable.from(items).flatMap {
+                        fetchGenre(it, apiKey, language)
+                    }
+                }
     }
 }
