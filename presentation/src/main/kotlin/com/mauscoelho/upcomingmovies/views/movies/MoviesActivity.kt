@@ -1,8 +1,11 @@
 package com.mauscoelho.upcomingmovies.views.movies
 
 import android.os.Bundle
+import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.SearchView
+import android.view.Menu
 import android.view.View
 import com.mauscoelho.upcomingmovies.MoviesApplication
 import com.mauscoelho.upcomingmovies.R
@@ -13,7 +16,9 @@ import kotlinx.android.synthetic.main.activity_movies.*
 import javax.inject.Inject
 
 
-class MoviesActivity : AppCompatActivity(), MoviesView {
+
+
+class MoviesActivity : AppCompatActivity(), MoviesView, SearchView.OnQueryTextListener {
 
     @Inject lateinit var moviesPresenter: MoviesPresenter
     @Inject lateinit var moviesAdapter: MoviesAdapter
@@ -25,6 +30,14 @@ class MoviesActivity : AppCompatActivity(), MoviesView {
         MoviesApplication.appComponent.inject(this)
         moviesPresenter.injectView(this)
         initialize()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_movies, menu)
+        val searchItem = menu?.findItem(R.id.action_search)
+        val searchView = MenuItemCompat.getActionView(searchItem) as SearchView
+        searchView.setOnQueryTextListener(this)
+        return true
     }
 
     private fun initialize() {
@@ -41,8 +54,23 @@ class MoviesActivity : AppCompatActivity(), MoviesView {
         progress_bar.visibility = View.GONE
     }
 
+    override fun showLoading() {
+        progress_bar.visibility = View.VISIBLE
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         moviesPresenter.clearSubscriptions()
+    }
+
+    override fun clearMovies() {
+        moviesAdapter.clear()
+    }
+
+    override fun onQueryTextSubmit(query: String): Boolean = false
+
+    override fun onQueryTextChange(newText: String): Boolean {
+        moviesPresenter.search(newText)
+        return false
     }
 }

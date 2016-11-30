@@ -42,7 +42,7 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailView {
         supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
-    override fun setHeaderImage(imagePath: String) {
+    override fun setHeaderImage(imagePath: String?) {
         Glide.with(this).load(BuildConfig.API_IMAGE_TMDB + imagePath).centerCrop().crossFade().into(movie_detail_header_image)
     }
 
@@ -50,7 +50,7 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailView {
         activity_movie_detail_overview.text = overview
     }
 
-    override fun setPosterImage(posterPath: String) {
+    override fun setPosterImage(posterPath: String?) {
         Glide.with(this).load(BuildConfig.API_IMAGE_TMDB + posterPath).centerCrop().crossFade().into(activity_movie_detail_poster)
     }
 

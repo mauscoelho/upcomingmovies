@@ -54,4 +54,9 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ItemViewHolder>() {
             itemView.context.startActivity(intent)
         }
     }
+
+    fun clear() {
+        movies.clear()
+        this.notifyDataSetChanged()
+    }
 }

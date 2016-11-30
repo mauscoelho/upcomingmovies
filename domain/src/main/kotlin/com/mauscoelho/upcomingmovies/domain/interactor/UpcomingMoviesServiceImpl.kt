@@ -13,8 +13,8 @@ class UpcomingMoviesServiceImpl(
         val upcomingMoviesRepository: UpcomingMoviesRepository,
         val genreRepository: GenreRepository) : UpcomingMoviesService {
 
-    override fun getUpcomingMovies(api_key: String, language: String, page: Int): Observable<Movie> {
-        return upcomingMoviesRepository.getUpcomingMovies(api_key, language, page)
+    override fun getUpcomingMovies(apiKey: String, language: String, page: Int): Observable<Movie> {
+        return upcomingMoviesRepository.getUpcomingMovies(apiKey, language, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { item ->
@@ -26,7 +26,7 @@ class UpcomingMoviesServiceImpl(
                 }
                 .flatMap { items ->
                     Observable.from(items).flatMap {
-                        fetchGenre(it, api_key, language)
+                        fetchGenre(it, apiKey, language)
                     }
                 }
     }
@@ -44,5 +44,9 @@ class UpcomingMoviesServiceImpl(
 
     override fun getMovie(movieId: Int, api_key: String, language: String): Observable<Movie> {
         return upcomingMoviesRepository.getMovie(movieId, api_key, language)
+    }
+
+    override fun searchMovies(apiKey: String, language: String, i: Int): Observable<Movie> {
+        return Observable.just(null)
     }
 }

@@ -5,6 +5,7 @@ import rx.Observable
 
 
 interface UpcomingMoviesService {
-    fun getUpcomingMovies(api_key: String, language: String, page: Int) : Observable<Movie>
-    fun getMovie(movieId : Int, api_key: String, language: String) : Observable<Movie>
+    fun getUpcomingMovies(apiKey: String, language: String, page: Int): Observable<Movie>
+    fun getMovie(movieId: Int, api_key: String, language: String): Observable<Movie>
+    fun searchMovies(apiKey: String, language: String, i: Int): Observable<Movie>
 }

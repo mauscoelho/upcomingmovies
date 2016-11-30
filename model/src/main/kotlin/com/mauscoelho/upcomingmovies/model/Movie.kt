@@ -11,8 +11,8 @@ data class Movie(
         val id: Int,
         val title: String,
         val original_title: String,
-        val poster_path: String,
-        val backdrop_path: String,
+        val poster_path: String?,
+        val backdrop_path: String?,
         var overview: String,
         val release_date: String,
         val vote_average: Double,
@@ -25,7 +25,19 @@ data class Movie(
         }
     }
 
-    constructor(source: Parcel) : this(source.readInt(), source.readInt(), source.readInt(), source.readString(), source.readString(), source.readString(), source.readString(), source.readString(), source.readString(), source.readDouble(), source.createTypedArrayList(Genre.CREATOR), ArrayList<Int>().apply{ source.readList(this, Int::class.java.classLoader) })
+    constructor(source: Parcel) : this(
+            source.readInt(),
+            source.readInt(),
+            source.readInt(),
+            source.readString(),
+            source.readString(),
+            source.readString(),
+            source.readString(),
+            source.readString(),
+            source.readString(),
+            source.readDouble(),
+            source.createTypedArrayList(Genre.CREATOR),
+            ArrayList<Int>().apply{ source.readList(this, Int::class.java.classLoader) })
 
     override fun describeContents() = 0
 
@@ -44,6 +56,7 @@ data class Movie(
         dest?.writeList(genre_ids)
     }
 }
+
 
 
 
