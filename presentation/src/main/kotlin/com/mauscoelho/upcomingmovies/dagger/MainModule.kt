@@ -66,7 +66,7 @@ class MainModule(val application: MoviesApplication) {
     fun provideUpcomingMoviesRepository(): UpcomingMoviesRepository = UpcomingMoviesRepositoryImpl(provideTmdbNetwork(provideRetrofit()))
 
     @Provides
-    fun provideGenreRepository(): GenreRepository = GenreRepositoryImpl()
+    fun provideGenreRepository(): GenreRepository = GenreRepositoryImpl(provideTmdbNetwork(provideRetrofit()))
 
     @Provides
     fun provideTmdbNetwork(retrofit: Retrofit): TmdbNetwork = retrofit.create(TmdbNetwork::class.java)
