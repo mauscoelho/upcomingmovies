@@ -8,15 +8,17 @@ class InfiniteScrollListener(
         val func: () -> Unit,
         val layoutManager: GridLayoutManager) : RecyclerView.OnScrollListener() {
 
+    var previousTotal = 0
+
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
 
         if (dy > 0) {
-            val visibleThreshold = 2
             val lastItem = layoutManager.findLastCompletelyVisibleItemPosition()
             val currentTotalCount = layoutManager.itemCount
 
-            if (currentTotalCount <= lastItem + visibleThreshold) {
+            if ((currentTotalCount - 4 == lastItem + 1) && previousTotal != currentTotalCount ) {
+                previousTotal = currentTotalCount
                 func()
             }
         }
