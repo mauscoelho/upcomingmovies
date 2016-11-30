@@ -15,6 +15,7 @@ data class Movie(
         val backdrop_path: String,
         var overview: String,
         val release_date: String,
+        val vote_average: Double,
         var genres: List<Genre>,
         val genre_ids: List<Int>) : Parcelable {
     companion object {
@@ -24,7 +25,7 @@ data class Movie(
         }
     }
 
-    constructor(source: Parcel) : this(source.readInt(), source.readInt(), source.readInt(), source.readString(), source.readString(), source.readString(), source.readString(), source.readString(), source.readString(), source.createTypedArrayList(Genre.CREATOR), ArrayList<Int>().apply{ source.readList(this, Int::class.java.classLoader) })
+    constructor(source: Parcel) : this(source.readInt(), source.readInt(), source.readInt(), source.readString(), source.readString(), source.readString(), source.readString(), source.readString(), source.readString(), source.readDouble(), source.createTypedArrayList(Genre.CREATOR), ArrayList<Int>().apply{ source.readList(this, Int::class.java.classLoader) })
 
     override fun describeContents() = 0
 
@@ -38,6 +39,7 @@ data class Movie(
         dest?.writeString(backdrop_path)
         dest?.writeString(overview)
         dest?.writeString(release_date)
+        dest?.writeDouble(vote_average)
         dest?.writeTypedList(genres)
         dest?.writeList(genre_ids)
     }

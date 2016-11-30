@@ -2,6 +2,7 @@ package com.mauscoelho.upcomingmovies.views.movieDetail
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.MenuItem
 import com.bumptech.glide.Glide
 import com.mauscoelho.upcomingmovies.BuildConfig
 import com.mauscoelho.upcomingmovies.MoviesApplication
@@ -10,6 +11,7 @@ import com.mauscoelho.upcomingmovies.model.Movie
 import kotlinx.android.synthetic.main.activity_movie_detail.*
 import kotlinx.android.synthetic.main.activity_movie_detail_content.*
 import javax.inject.Inject
+
 
 class MovieDetailActivity : AppCompatActivity(), MovieDetailView {
 
@@ -23,9 +25,21 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailView {
         movieDetailPresenter.injectView(this, movie)
     }
 
-    override fun setTitle(title: String) {
+    override fun onOptionsItemSelected(menuItem: MenuItem): Boolean {
+        when (menuItem.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+            }
+            else -> return super.onOptionsItemSelected(menuItem)
+        }
+        return super.onOptionsItemSelected(menuItem)
+    }
+
+    override fun setupToolbar(title: String) {
         toolbar.title = title
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
     override fun setHeaderImage(imagePath: String) {
@@ -34,5 +48,17 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailView {
 
     override fun setOverview(overview: String) {
         activity_movie_detail_overview.text = overview
+    }
+
+    override fun setPosterImage(posterPath: String) {
+        Glide.with(this).load(BuildConfig.API_IMAGE_TMDB + posterPath).centerCrop().crossFade().into(activity_movie_detail_poster)
+    }
+
+    override fun setVoteAvarage(voteAverage: Double) {
+        activity_movie_detail_vote_average.text = voteAverage.toString()
+    }
+
+    override fun setOriginalTitle(originalTitle: String) {
+        activity_movie_detail_original_title.text = originalTitle
     }
 }
