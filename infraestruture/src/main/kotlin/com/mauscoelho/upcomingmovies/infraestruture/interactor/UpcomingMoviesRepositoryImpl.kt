@@ -3,7 +3,6 @@ package com.mauscoelho.upcomingmovies.infraestruture.interactor
 import com.mauscoelho.upcomingmovies.infraestruture.UpcomingMoviesRepository
 import com.mauscoelho.upcomingmovies.infraestruture.network.TmdbNetwork
 import com.mauscoelho.upcomingmovies.model.Movie
-import com.mauscoelho.upcomingmovies.model.MovieResponse
 import com.mauscoelho.upcomingmovies.model.UpcomingMovies
 import rx.Observable
 

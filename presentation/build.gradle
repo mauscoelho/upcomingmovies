@@ -40,6 +40,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile(
+            project(path: ':domain'),
             fileTree(dir: 'libs', include: ['*.jar']),
             'com.android.support:appcompat-v7:25.0.1',
             'com.android.support.constraint:constraint-layout:1.0.0-alpha4',
@@ -55,10 +56,10 @@ dependencies {
             'com.squareup.okhttp3:logging-interceptor:3.4.2',
             "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
             'com.github.bumptech.glide:glide:3.7.0',
-            'com.android.support:support-v4:19.1.0'
+            'com.android.support:support-v4:19.1.0',
+            "com.android.support:design:$appCompatVersion"
     )
     kapt("com.google.dagger:dagger-compiler:${dagger_version}")
-    provided('org.glassfish:javax.annotation:10.0-b28')
     testCompile(
             'junit:junit:4.12',
             "org.mockito:mockito-core:0.12.0",
@@ -68,8 +69,7 @@ dependencies {
             'org.junit.platform:junit-platform-runner:1.0.0-M2',
             "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     )
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile project(path: ':domain')
+    provided 'org.glassfish:javax.annotation:10.0-b28'
 }
 
 kapt {

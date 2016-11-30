@@ -2,6 +2,7 @@ package com.mauscoelho.upcomingmovies.domain.interactor
 
 import com.mauscoelho.upcomingmovies.domain.boundary.UpcomingMoviesService
 import com.mauscoelho.upcomingmovies.infraestruture.UpcomingMoviesRepository
+import com.mauscoelho.upcomingmovies.model.Genre
 import com.mauscoelho.upcomingmovies.model.Movie
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
@@ -24,22 +25,16 @@ class UpcomingMoviesServiceImpl(
                 }
                 .flatMap { items ->
                     Observable.from(items).flatMap {
-                        fetchMovie(it, api_key, language)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
+                        it.genres = listOf(Genre(1, "Horror"))
+                        Observable.just(it)
+                        //fetchGenre
+//                        fetchMovie(it, api_key, language)
+//                                .subscribeOn(Schedulers.io())
+//                                .observeOn(AndroidSchedulers.mainThread())
                     }
                 }
     }
 
-    private fun fetchMovie(movie: Movie, api_key: String, language: String): Observable<Movie> {
-        return upcomingMoviesRepository.getMovie(movie.id, api_key, language)
-                .flatMap {
-                    movie.genres = it.genres
-                    movie.overview = it.overview
-                    Observable.just(movie)
-                }
-
-    }
 
     override fun getMovie(movieId: Int, api_key: String, language: String): Observable<Movie> {
         return upcomingMoviesRepository.getMovie(movieId, api_key, language)

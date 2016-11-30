@@ -8,6 +8,8 @@ import com.mauscoelho.upcomingmovies.domain.interactor.UpcomingMoviesServiceImpl
 import com.mauscoelho.upcomingmovies.infraestruture.UpcomingMoviesRepository
 import com.mauscoelho.upcomingmovies.infraestruture.interactor.UpcomingMoviesRepositoryImpl
 import com.mauscoelho.upcomingmovies.infraestruture.network.TmdbNetwork
+import com.mauscoelho.upcomingmovies.views.movieDetail.MovieDetailPresenter
+import com.mauscoelho.upcomingmovies.views.movieDetail.MovieDetailPresenterImpl
 import com.mauscoelho.upcomingmovies.views.movies.MoviesPresenter
 import com.mauscoelho.upcomingmovies.views.movies.MoviesPresenterImpl
 import com.mauscoelho.upcomingmovies.views.movies.adapters.MoviesAdapter
@@ -38,42 +40,34 @@ class MainModule(val application: MoviesApplication) {
     }
 
     @Provides
-    fun provideRetrofit(): Retrofit {
-        return Retrofit.Builder()
-                .baseUrl(BuildConfig.API_TMDB)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(provideokHttp())
-                .build()
-    }
+    fun provideRetrofit(): Retrofit =
+            Retrofit.Builder()
+                    .baseUrl(BuildConfig.API_TMDB)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .client(provideokHttp())
+                    .build()
 
     @Provides
     fun provideMoviesPresenter(): MoviesPresenter = MoviesPresenterImpl(provideUpcomingMoviesService(), provideLanguage(), provideCompositeSubscription())
 
+    @Provides
+    fun provideMovieDetailPresenter(): MovieDetailPresenter = MovieDetailPresenterImpl()
 
     @Provides
     fun provideCompositeSubscription(): CompositeSubscription = CompositeSubscription()
 
     @Provides
-    fun provideUpcomingMoviesService(): UpcomingMoviesService {
-        return UpcomingMoviesServiceImpl(provideUpcomingMoviesRepository())
-    }
-
+    fun provideUpcomingMoviesService(): UpcomingMoviesService = UpcomingMoviesServiceImpl(provideUpcomingMoviesRepository())
 
     @Provides
-    fun provideUpcomingMoviesRepository(): UpcomingMoviesRepository {
-        return UpcomingMoviesRepositoryImpl(provideTmdbNetwork(provideRetrofit()))
-    }
+    fun provideUpcomingMoviesRepository(): UpcomingMoviesRepository = UpcomingMoviesRepositoryImpl(provideTmdbNetwork(provideRetrofit()))
 
     @Provides
-    fun provideTmdbNetwork(retrofit: Retrofit): TmdbNetwork {
-        return retrofit.create(TmdbNetwork::class.java)
-    }
+    fun provideTmdbNetwork(retrofit: Retrofit): TmdbNetwork = retrofit.create(TmdbNetwork::class.java)
 
     @Provides
-    fun provideMoviesAdapter(): MoviesAdapter {
-        return MoviesAdapter()
-    }
+    fun provideMoviesAdapter(): MoviesAdapter = MoviesAdapter()
 
     @Provides
     fun provideLanguage() = "en-US"

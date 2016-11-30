@@ -31,7 +31,7 @@ class GenresAdapter : RecyclerView.Adapter<GenresAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: Genre) = with(itemView) {
-            item_genre_txt.text = item.name
+            item_genre_txt.text = "#${item.name}"
         }
     }
 }
