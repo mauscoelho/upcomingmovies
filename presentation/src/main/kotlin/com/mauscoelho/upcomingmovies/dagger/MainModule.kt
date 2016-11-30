@@ -70,10 +70,7 @@ class MainModule(val application: MoviesApplication) {
     @Provides
     fun provideUpcomingMoviesRepository(): UpcomingMoviesRepository = UpcomingMoviesRepositoryImpl(provideTmdbNetwork(provideRetrofit()))
 
-    @Singleton
-    @ForApplication
-    @Provides
-    fun provideGenreRepository(): GenreRepository = GenreRepositoryImpl(provideTmdbNetwork(provideRetrofit()))
+    fun provideGenreRepository(): GenreRepository = GenreRepositoryImpl(provideTmdbNetwork(provideRetrofit()),provideGenresCollection())
 
     @Provides
     fun provideTmdbNetwork(retrofit: Retrofit): TmdbNetwork = retrofit.create(TmdbNetwork::class.java)
@@ -83,5 +80,8 @@ class MainModule(val application: MoviesApplication) {
 
     @Provides
     fun provideLanguage() = "en-US"
+
+    @Provides
+    fun provideGenresCollection() = "genres"
 
 }

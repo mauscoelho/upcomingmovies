@@ -1,27 +1,25 @@
 package com.mauscoelho.upcomingmovies.infrastructure.interactor
 
-import android.util.Log
 import com.mauscoelho.upcomingmovies.infrastructure.boundary.GenreRepository
 import com.mauscoelho.upcomingmovies.infrastructure.network.TmdbNetwork
 import com.mauscoelho.upcomingmovies.model.Genre
 import com.mauscoelho.upcomingmovies.model.Genres
+import io.paperdb.Paper
 import rx.Observable
 
-class GenreRepositoryImpl(val tmdbNetwork: TmdbNetwork) : GenreRepository {
-
-    val genresCache = mutableListOf<Genre>()
+class GenreRepositoryImpl(val tmdbNetwork: TmdbNetwork,
+                          val genresCollection: String) : GenreRepository {
 
     override fun getGenres(genreIds: List<Int>, api_key: String, language: String): Observable<List<Genre>> {
-        Log.i("teste", "cache ${genresCache.size}")
-        return Observable.just(genresCache.filter { genreIds.contains(it.id) })
+        val genres = Paper.book().read<List<Genre>>(genresCollection, listOf())
+        return Observable.just(genres.filter { genreIds.contains(it.id) })
     }
 
     override fun loadGenres(api_key: String, language: String): Observable<Genres> {
         return tmdbNetwork.getGenres(api_key, language)
                 .map {
-                    if (genresCache.isEmpty()) {
-                        genresCache.addAll(it.genres)
-                        Log.i("teste", "add to cache ${genresCache.size}")
+                    if (!Paper.book().exist(genresCollection)) {
+                        Paper.book().write(genresCollection, it.genres)
                     }
                     it
                 }
