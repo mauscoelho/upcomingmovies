@@ -2,15 +2,16 @@ package com.mauscoelho.upcomingmovies.views.movies
 
 import android.util.Log
 import com.mauscoelho.upcomingmovies.BuildConfig
+import com.mauscoelho.upcomingmovies.domain.boundary.GenreService
 import com.mauscoelho.upcomingmovies.domain.boundary.UpcomingMoviesService
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
-import java.util.concurrent.TimeUnit
 
 class MoviesPresenterImpl(val upcomingMoviesService: UpcomingMoviesService,
                           val language: String,
-                          val compositeSubscription: CompositeSubscription) : MoviesPresenter {
+                          val compositeSubscription: CompositeSubscription,
+                          val genreService: GenreService) : MoviesPresenter {
 
     lateinit var moviesView: MoviesView
     var currentPage = 0
@@ -18,6 +19,15 @@ class MoviesPresenterImpl(val upcomingMoviesService: UpcomingMoviesService,
 
     override fun injectView(moviesView: MoviesView) {
         this.moviesView = moviesView
+    }
+
+    override fun firstLoadMovies() {
+        genreService.loadGenres(BuildConfig.API_KEY, language)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnCompleted {
+                    loadMovies()
+                }.subscribe { }
     }
 
     override fun loadMovies() {

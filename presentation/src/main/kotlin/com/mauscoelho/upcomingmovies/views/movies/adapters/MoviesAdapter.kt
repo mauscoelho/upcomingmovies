@@ -29,8 +29,10 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ItemViewHolder>() {
     }
 
     fun addMovie(movie: Movie) {
-        movies.add(movie)
-        this.notifyDataSetChanged()
+        if (movie !in movies) {
+            movies.add(movie)
+            this.notifyDataSetChanged()
+        }
     }
 
 

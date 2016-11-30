@@ -1,8 +1,8 @@
 package com.mauscoelho.upcomingmovies.domain.interactor
 
 import com.mauscoelho.upcomingmovies.domain.boundary.UpcomingMoviesService
-import com.mauscoelho.upcomingmovies.infraestruture.UpcomingMoviesRepository
-import com.mauscoelho.upcomingmovies.model.Genre
+import com.mauscoelho.upcomingmovies.infrastructure.boundary.GenreRepository
+import com.mauscoelho.upcomingmovies.infrastructure.boundary.UpcomingMoviesRepository
 import com.mauscoelho.upcomingmovies.model.Movie
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
@@ -10,7 +10,8 @@ import rx.schedulers.Schedulers
 
 
 class UpcomingMoviesServiceImpl(
-        val upcomingMoviesRepository: UpcomingMoviesRepository) : UpcomingMoviesService {
+        val upcomingMoviesRepository: UpcomingMoviesRepository,
+        val genreRepository: GenreRepository) : UpcomingMoviesService {
 
     override fun getUpcomingMovies(api_key: String, language: String, page: Int): Observable<Movie> {
         return upcomingMoviesRepository.getUpcomingMovies(api_key, language, page)
@@ -25,13 +26,18 @@ class UpcomingMoviesServiceImpl(
                 }
                 .flatMap { items ->
                     Observable.from(items).flatMap {
-                        it.genres = listOf(Genre(1, "Horror"))
-                        Observable.just(it)
-                        //fetchGenre
-//                        fetchMovie(it, api_key, language)
-//                                .subscribeOn(Schedulers.io())
-//                                .observeOn(AndroidSchedulers.mainThread())
+                        fetchGenre(it, api_key, language)
                     }
+                }
+    }
+
+    private fun fetchGenre(movie: Movie, api_key: String, language: String): Observable<Movie> {
+        return genreRepository.getGenres(movie.genre_ids, api_key, language)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap {
+                    movie.genres = it
+                    Observable.just(movie)
                 }
     }
 
