@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.mauscoelho.upcomingmovies.infrastructure.interactor.GenreRepositoryImpl
 import com.mauscoelho.upcomingmovies.infrastructure.network.TmdbNetwork
 import com.mauscoelho.upcomingmovies.model.Genre
+import com.mauscoelho.upcomingmovies.model.Genres
 import com.snappydb.DB
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.context
@@ -15,6 +16,7 @@ import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
+import rx.Observable
 
 @RunWith(JUnitPlatform::class)
 class GenreRepositoryTest : Spek({
@@ -56,7 +58,20 @@ class GenreRepositoryTest : Spek({
                         .emissionsCount(1)
                         .expectedSingleValue(expected)
             }
+        }
 
+        context("Load genre") {
+            it("should load genres") {
+                val expected = Genres(listOf(Genre(1,"Horror")))
+
+                Mockito.`when`(tmdbNetwork.getGenres(apiKey,language)).thenReturn(Observable.just(expected))
+
+                RxAssertions.assertThat(genreRepository.loadGenres(apiKey, language))
+                        .completes()
+                        .withoutErrors()
+                        .emissionsCount(1)
+                        .expectedSingleValue(expected)
+            }
 
         }
 
