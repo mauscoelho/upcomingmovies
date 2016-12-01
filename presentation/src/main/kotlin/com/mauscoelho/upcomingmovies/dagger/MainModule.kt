@@ -30,6 +30,9 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.GsonConverterFactory
 import retrofit2.Retrofit
 import retrofit2.RxJavaCallAdapterFactory
+import rx.Scheduler
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
 import javax.inject.Singleton
 
@@ -68,7 +71,9 @@ class MainModule(val application: MoviesApplication) {
     fun provideCompositeSubscription(): CompositeSubscription = CompositeSubscription()
 
     @Provides
-    fun provideUpcomingMoviesService(): UpcomingMoviesService = UpcomingMoviesServiceImpl(provideUpcomingMoviesRepository(), provideGenreRepository(), provideSearchRepository())
+    fun provideUpcomingMoviesService(): UpcomingMoviesService {
+        return UpcomingMoviesServiceImpl(provideUpcomingMoviesRepository(), provideGenreRepository(), provideSearchRepository(), provideIoScheduler(), provideMainThreadScheduler())
+    }
 
     @Provides
     fun provideGenreService(): GenreService = GenreServiceImpl(provideGenreRepository())
@@ -100,5 +105,17 @@ class MainModule(val application: MoviesApplication) {
 
     @Provides
     fun provideGenresCollection() = "genres"
+
+    @Provides
+    @Singleton
+    fun provideMainThreadScheduler(): Scheduler = AndroidSchedulers.mainThread()
+
+    @Provides
+    @Singleton
+    fun provideIoScheduler(): Scheduler = Schedulers.io()
+
+    @Provides
+    @Singleton
+    fun provideCompScheduler(): Scheduler = Schedulers.computation()
 
 }

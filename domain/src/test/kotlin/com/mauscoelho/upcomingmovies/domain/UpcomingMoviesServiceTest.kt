@@ -16,6 +16,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import rx.Observable
+import rx.Scheduler
 
 @RunWith(JUnitPlatform::class)
 class UpcomingMoviesServiceTest : Spek({
@@ -23,7 +24,8 @@ class UpcomingMoviesServiceTest : Spek({
     val upcomingMoviesRepository = mock(UpcomingMoviesRepository::class.java)
     val genreRepository = mock(GenreRepository::class.java)
     val searchRepository = mock(SearchRepository::class.java)
-    val genreService = UpcomingMoviesServiceImpl(upcomingMoviesRepository, genreRepository, searchRepository)
+    val scheduler = mock(Scheduler::class.java)
+    val genreService = UpcomingMoviesServiceImpl(upcomingMoviesRepository, genreRepository, searchRepository, scheduler, scheduler)
     val apiKey = "1f54bd990f1cdfb230adb312546d765d"
     val language = "en-US"
 

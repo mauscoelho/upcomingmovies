@@ -12,6 +12,8 @@ class MoviesApplication : Application() {
     }
     override fun onCreate() {
         super.onCreate()
-        appComponent = DaggerAppComponent.builder().mainModule(MainModule(this)).build()
+        appComponent = DaggerAppComponent.builder()
+                .mainModule(MainModule(this))
+                .build()
     }
 }
