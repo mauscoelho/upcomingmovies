@@ -1,6 +1,8 @@
 package com.mauscoelho.upcomingmovies.dagger
 
 import android.content.Context
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.mauscoelho.upcomingmovies.BuildConfig
 import com.mauscoelho.upcomingmovies.MoviesApplication
 import com.mauscoelho.upcomingmovies.domain.boundary.GenreService
@@ -19,6 +21,8 @@ import com.mauscoelho.upcomingmovies.views.movieDetail.MovieDetailPresenterImpl
 import com.mauscoelho.upcomingmovies.views.movies.MoviesPresenter
 import com.mauscoelho.upcomingmovies.views.movies.MoviesPresenterImpl
 import com.mauscoelho.upcomingmovies.views.movies.adapters.MoviesAdapter
+import com.snappydb.DB
+import com.snappydb.DBFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -64,7 +68,7 @@ class MainModule(val application: MoviesApplication) {
     fun provideCompositeSubscription(): CompositeSubscription = CompositeSubscription()
 
     @Provides
-    fun provideUpcomingMoviesService(): UpcomingMoviesService = UpcomingMoviesServiceImpl(provideUpcomingMoviesRepository(),provideGenreRepository(), provideSearchRepository())
+    fun provideUpcomingMoviesService(): UpcomingMoviesService = UpcomingMoviesServiceImpl(provideUpcomingMoviesRepository(), provideGenreRepository(), provideSearchRepository())
 
     @Provides
     fun provideGenreService(): GenreService = GenreServiceImpl(provideGenreRepository())
@@ -73,13 +77,20 @@ class MainModule(val application: MoviesApplication) {
     fun provideUpcomingMoviesRepository(): UpcomingMoviesRepository = UpcomingMoviesRepositoryImpl(provideTmdbNetwork(provideRetrofit()))
 
     @Provides
-    fun provideGenreRepository(): GenreRepository = GenreRepositoryImpl(provideTmdbNetwork(provideRetrofit()),provideGenresCollection())
+    fun provideGenreRepository(): GenreRepository = GenreRepositoryImpl(provideTmdbNetwork(provideRetrofit()), provideGenresCollection(), provideSnappyDb(provideApplicationContext()), provideMapper())
 
     @Provides
     fun provideSearchRepository(): SearchRepository = SearchRepositoryImpl(provideTmdbNetwork(provideRetrofit()))
 
     @Provides
     fun provideTmdbNetwork(retrofit: Retrofit): TmdbNetwork = retrofit.create(TmdbNetwork::class.java)
+
+    @Singleton
+    @Provides
+    fun provideSnappyDb(context: Context): DB = DBFactory.open(context)
+
+    @Provides
+    fun provideMapper(): ObjectMapper = jacksonObjectMapper()
 
     @Provides
     fun provideMoviesAdapter(): MoviesAdapter = MoviesAdapter()

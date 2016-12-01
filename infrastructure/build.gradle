@@ -25,6 +25,7 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
         test.java.srcDirs += 'src/test/kotlin'
     }
+
 }
 
 dependencies {
@@ -41,7 +42,8 @@ dependencies {
             "com.squareup.retrofit2:adapter-rxjava:2.0.0-beta3",
             "com.squareup.retrofit2:converter-gson:2.0.0-beta3",
             "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
-            'io.paperdb:paperdb:2.0'
+            'com.snappydb:snappydb-lib:0.5.2',
+            "com.fasterxml.jackson.module:jackson-module-kotlin:2.7.1-2"
     )
     testCompile(
             'junit:junit:4.12',
@@ -53,6 +55,7 @@ dependencies {
             'com.github.ubiratansoares:rxassertions:0.3.2'
     )
 }
+
 kapt {
     generateStubs = true
 }

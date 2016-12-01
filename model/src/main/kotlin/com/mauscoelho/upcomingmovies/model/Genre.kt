@@ -2,11 +2,12 @@ package com.mauscoelho.upcomingmovies.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import java.io.Serializable
 
 
 data class Genre(
         val id: Int,
-        val name: String) : Parcelable {
+        val name: String) : Parcelable, Serializable {
     companion object {
         @JvmField val CREATOR: Parcelable.Creator<Genre> = object : Parcelable.Creator<Genre> {
             override fun createFromParcel(source: Parcel): Genre = Genre(source)

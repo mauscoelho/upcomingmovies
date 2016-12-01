@@ -1,7 +1,6 @@
 package com.mauscoelho.upcomingmovies.infrastructure
 
 
-import com.mauscoelho.upcomingmovies.infrastructure.interactor.GenreRepositoryImpl
 import com.mauscoelho.upcomingmovies.infrastructure.network.TmdbNetwork
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.context
@@ -14,8 +13,9 @@ import org.mockito.Mockito.mock
 @RunWith(JUnitPlatform::class)
 class GenreRepositoryTest : Spek({
 
+
     val tmdbNetwork = mock(TmdbNetwork::class.java)
-    val genreRepository = GenreRepositoryImpl(tmdbNetwork, "genres")
+//    val genreRepository = GenreRepositoryImpl(tmdbNetwork, "genres",)
 
     val apiKey = "1f54bd990f1cdfb230adb312546d765d"
     val language = "en-US"
@@ -27,7 +27,8 @@ class GenreRepositoryTest : Spek({
 
 
 
-                genreRepository.getGenres(listOf(1,2), apiKey, language)
+
+//                genreRepository.getGenres(listOf(1,2), apiKey, language)
 
             }
         }
