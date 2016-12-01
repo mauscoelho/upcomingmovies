@@ -27,14 +27,24 @@ class GenreRepositoryTest : Spek({
 
     val apiKey = "1f54bd990f1cdfb230adb312546d765d"
     val language = "en-US"
-
     val genreJson = "[{\"id\":28,\"name\":\"Action\"},{\"id\":12,\"name\":\"Adventure\"},{\"id\":16,\"name\":\"Animation\"},{\"id\":35,\"name\":\"Comedy\"},{\"id\":80,\"name\":\"Crime\"},{\"id\":99,\"name\":\"Documentary\"},{\"id\":18,\"name\":\"Drama\"},{\"id\":10751,\"name\":\"Family\"},{\"id\":14,\"name\":\"Fantasy\"},{\"id\":36,\"name\":\"History\"},{\"id\":27,\"name\":\"Horror\"},{\"id\":10402,\"name\":\"Music\"},{\"id\":9648,\"name\":\"Mystery\"},{\"id\":10749,\"name\":\"Romance\"},{\"id\":878,\"name\":\"Science Fiction\"},{\"id\":10770,\"name\":\"TV Movie\"},{\"id\":53,\"name\":\"Thriller\"},{\"id\":10752,\"name\":\"War\"},{\"id\":37,\"name\":\"Western\"}]"
-
 
     describe("GenreRepositoryTest") {
         context("Get genre") {
-            it("should return genres from repository by ids") {
+            it("should return 1 genres from repository by id") {
+                val expected = listOf(Genre(1,"Horror"))
+                val searchIds = listOf(1)
 
+                Mockito.`when`(snappyDb.get(genresCollection)).thenReturn(genreJson)
+                Mockito.`when`(mapper.readValue(genreJson, Array<Genre>::class.java)).thenReturn(arrayOf(Genre(1, "Horror")))
+
+                RxAssertions.assertThat(genreRepository.getGenres(searchIds, apiKey, language))
+                        .completes()
+                        .withoutErrors()
+                        .emissionsCount(1)
+                        .expectedSingleValue(expected)
+            }
+            it("should return 2 genres from repository by ids") {
                 val expected = listOf(Genre(1,"Horror"), Genre(2,"Terror"))
 
                 Mockito.`when`(snappyDb.get(genresCollection)).thenReturn(genreJson)
@@ -46,6 +56,8 @@ class GenreRepositoryTest : Spek({
                         .emissionsCount(1)
                         .expectedSingleValue(expected)
             }
+
+
         }
 
     }
