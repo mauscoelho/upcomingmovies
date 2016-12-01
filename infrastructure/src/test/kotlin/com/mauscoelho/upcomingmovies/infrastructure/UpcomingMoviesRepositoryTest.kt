@@ -18,49 +18,60 @@ import rx.Observable
 
 @RunWith(JUnitPlatform::class)
 class UpcomingMoviesRepositoryTest : Spek({
+
+    val apiKey = "1f54bd990f1cdfb230adb312546d765d"
+    val language = "en-US"
+
+    fun createUpcomingMovies(): Observable<UpcomingMovies> {
+        val movies = mutableListOf<Movie>()
+        (1..20).mapTo(movies) { Movie(1, 1, it, "title", "poster_path", "overview", "release_date", "", "", 0.1, listOf(), listOf()) }
+        return Observable.just(UpcomingMovies(1, movies.toTypedArray(), 4, 80))
+    }
+
+    fun createMovie(): Observable<Movie> {
+        return Observable.just(Movie(20, 1, 1, "title", "poster_path", "overview", "release_date", "", "", 0.1, listOf(), listOf()))
+    }
+
     describe("UpcomingMoviesRepositoryTest") {
         context("Get upcoming movies") {
-            fun getMockUpcomingMovies(): Observable<UpcomingMovies> {
-                val movies = arrayOf<Movie>(
-                        Movie(1, 1,1,"title", "poster_path", "overview", "release_date","","",0.1, listOf(), listOf()),
-                        Movie(2, 1,1,"title", "poster_path", "overview", "release_date","","",0.1, listOf(), listOf()),
-                        Movie(3, 1,1,"title", "poster_path", "overview", "release_date","","",0.1, listOf(), listOf()),
-                        Movie(4, 1,1,"title", "poster_path", "overview", "release_date","","",0.1, listOf(), listOf()),
-                        Movie(5, 1,1,"title", "poster_path", "overview", "release_date","","",0.1, listOf(), listOf()),
-                        Movie(6, 1,1,"title", "poster_path", "overview", "release_date","","",0.1, listOf(), listOf()),
-                        Movie(7, 1,1,"title", "poster_path", "overview", "release_date","","",0.1, listOf(), listOf()),
-                        Movie(8, 1,1,"title", "poster_path", "overview", "release_date","","",0.1, listOf(), listOf()),
-                        Movie(9, 1,1,"title", "poster_path", "overview", "release_date","","",0.1, listOf(), listOf()),
-                        Movie(10, 1,1,"title", "poster_path", "overview", "release_date","","",0.1, listOf(), listOf()),
-                        Movie(11, 1,1,"title", "poster_path", "overview", "release_date","","",0.1, listOf(), listOf()),
-                        Movie(12, 1,1,"title", "poster_path", "overview", "release_date","","",0.1, listOf(), listOf()),
-                        Movie(13, 1,1,"title", "poster_path", "overview", "release_date","","",0.1, listOf(), listOf()),
-                        Movie(14, 1,1,"title", "poster_path", "overview", "release_date","","",0.1, listOf(), listOf()),
-                        Movie(15, 1,1,"title", "poster_path", "overview", "release_date","","",0.1, listOf(), listOf()),
-                        Movie(16, 1,1,"title", "poster_path", "overview", "release_date","","",0.1, listOf(), listOf()),
-                        Movie(17, 1,1,"title", "poster_path", "overview", "release_date","","",0.1, listOf(), listOf()),
-                        Movie(18, 1,1,"title", "poster_path", "overview", "release_date","","",0.1, listOf(), listOf()),
-                        Movie(19, 1,1,"title", "poster_path", "overview", "release_date","","",0.1, listOf(), listOf()),
-                        Movie(20, 1,1,"title", "poster_path", "overview", "release_date","","",0.1, listOf(), listOf())
-                )
-                return Observable.just(UpcomingMovies(1, movies, 4, 80))
-            }
+
 
             it("should return upcoming movies from network") {
-                val api_key = "1f54bd990f1cdfb230adb312546d765d"
-                val language = "en-US"
                 val page = 1
-
                 val upcomingMoviesRepositoryMock = mock(UpcomingMoviesRepository::class.java)
-                `when`(upcomingMoviesRepositoryMock.getUpcomingMovies(any(), any(), any())).thenReturn(getMockUpcomingMovies())
+                `when`(upcomingMoviesRepositoryMock.getUpcomingMovies(any(), any(), any())).thenReturn(createUpcomingMovies())
 
-                RxAssertions.assertThat(upcomingMoviesRepositoryMock.getUpcomingMovies(api_key, language, page))
+                RxAssertions.assertThat(upcomingMoviesRepositoryMock.getUpcomingMovies(apiKey, language, page))
                         .completes()
                         .withoutErrors()
                         .emissionsCount(1)
             }
         }
+        context("Get movie detail") {
+            it("should return movie detail from network") {
+                val movieId = 1
+                val upcomingMoviesRepositoryMock = mock(UpcomingMoviesRepository::class.java)
+                `when`(upcomingMoviesRepositoryMock.getMovie(movieId, apiKey, language)).thenReturn(createMovie())
 
+                RxAssertions.assertThat(upcomingMoviesRepositoryMock.getMovie(movieId, apiKey, language))
+                        .completes()
+                        .withoutErrors()
+                        .emissionsCount(1)
+
+            }
+
+            it("should not return movie detail from network") {
+                val movieId = 2
+                val upcomingMoviesRepositoryMock = mock(UpcomingMoviesRepository::class.java)
+                `when`(upcomingMoviesRepositoryMock.getMovie(2, apiKey, language)).thenReturn(Observable.empty())
+
+                RxAssertions.assertThat(upcomingMoviesRepositoryMock.getMovie(movieId, apiKey, language))
+                        .emitsNothing()
+                        .completes()
+                        .withoutErrors()
+
+            }
+        }
 
     }
 })
