@@ -14,8 +14,8 @@ class GenreRepositoryImpl(val tmdbNetwork: TmdbNetwork,
                           val mapper : ObjectMapper) : GenreRepository {
 
     override fun getGenres(genreIds: List<Int>, api_key: String, language: String): Observable<List<Genre>> {
-        val genresJson = snappyDb.get(genresCollection)
-        val genres = mapper.readValue(genresJson, Array<Genre>::class.java)
+        val json = snappyDb.get(genresCollection)
+        val genres = mapper.readValue(json, Array<Genre>::class.java)
         return Observable.just(genres.filter { genreIds.contains(it.id) })
     }
 
