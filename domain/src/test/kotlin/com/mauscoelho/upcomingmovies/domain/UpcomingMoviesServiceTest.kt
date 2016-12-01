@@ -24,8 +24,9 @@ class UpcomingMoviesServiceTest : Spek({
     val upcomingMoviesRepository = mock(UpcomingMoviesRepository::class.java)
     val genreRepository = mock(GenreRepository::class.java)
     val searchRepository = mock(SearchRepository::class.java)
-    val scheduler = mock(Scheduler::class.java)
-    val genreService = UpcomingMoviesServiceImpl(upcomingMoviesRepository, genreRepository, searchRepository, scheduler, scheduler)
+    val io = mock(Scheduler::class.java)
+    val main = mock(Scheduler::class.java)
+    val genreService = UpcomingMoviesServiceImpl(upcomingMoviesRepository, genreRepository, searchRepository, io, main)
     val apiKey = "1f54bd990f1cdfb230adb312546d765d"
     val language = "en-US"
 
@@ -43,7 +44,7 @@ class UpcomingMoviesServiceTest : Spek({
                         .withoutErrors()
                         .expectedSingleValue(expected)
             }
-            it("should return 3 movies") {
+            it("should not return 3 movies") {
                 val page = 1
                 val expectedMovies =  mutableListOf(
                         Movie(20, 1, 1, "title", "poster_path", "overview", "release_date", "", "", 0.1, listOf(), listOf()),
@@ -55,10 +56,7 @@ class UpcomingMoviesServiceTest : Spek({
                 Mockito.`when`(upcomingMoviesRepository.getUpcomingMovies(apiKey, language, page)).thenReturn(Observable.just(result))
 
                 RxAssertions.assertThat(genreService.getUpcomingMovies(apiKey, language, page))
-                        .completes()
-                        .withoutErrors()
-                        .emissionsCount(3)
-
+                        .failsWithThrowable(NullPointerException::class.java)
             }
         }
     }
