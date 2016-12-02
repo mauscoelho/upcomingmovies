@@ -16,10 +16,9 @@ The purpose of this project is to show upcoming movies from [The Movie Db](https
 # Main third-party libraries
 
 - [Dagger2](https://github.com/google/dagger) - To inject and manage dependencies lifecycle 
-- [RXJava RXAndroid](https://github.com/ReactiveX/RxAndroid) - To orchestrating multiple actions in background
-- [Retrofit2](https://square.github.io/retrofit/) - To make communication with the api easy
-- [OkHttp](http://square.github.io/okhttp/) - To make communication with the api easy
-- [SnappyDB](https://github.com/nhachicha/SnappyDB) - To persists data easy
+- [RXJava RXAndroid](https://github.com/ReactiveX/RxAndroid) - To orchestrate multiple actions in background
+- [Retrofit2/OkHttp](https://square.github.io/retrofit/) - To make communication with the api easy
+- [SnappyDB](https://github.com/nhachicha/SnappyDB) - To persists data easily
 - [Spek](https://jetbrains.github.io/spek/) - To build explicit tests
 - [Mockito Kotlin](https://github.com/nhaarman/mockito-kotlin) - To mock classes and help in tests
 
