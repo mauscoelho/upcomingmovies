@@ -4,6 +4,7 @@ package com.mauscoelho.upcomingmovies.infrastructure
 import br.ufs.github.rxassertions.RxAssertions
 import com.mauscoelho.upcomingmovies.infrastructure.interactor.SearchRepositoryImpl
 import com.mauscoelho.upcomingmovies.infrastructure.network.TmdbNetwork
+import com.mauscoelho.upcomingmovies.model.Genre
 import com.mauscoelho.upcomingmovies.model.Movie
 import com.mauscoelho.upcomingmovies.model.UpcomingMovies
 import org.jetbrains.spek.api.Spek
@@ -28,7 +29,7 @@ class SearchRepositoryTest : Spek({
     describe("SearchRepositoryTest") {
         context("Search movie") {
             it("should return 1 movie") {
-                val expected = UpcomingMovies(1, arrayOf(Movie(20, 1, 1, "title", "poster_path", "overview", "release_date", "", "", 0.1, listOf(), listOf())), 4, 1)
+                val expected = UpcomingMovies(1, arrayOf(Movie(20, 1, 1, "title", "poster_path", "overview", "release_date", "", "", 0.1, listOf(Genre(1,"Horror")), listOf(1),"a","a","a","a","a")), 4, 1)
                 val query = "a"
                 val page = 1
 

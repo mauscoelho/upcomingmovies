@@ -5,5 +5,5 @@ import rx.Observable
 
 
 interface SearchRepository {
-    fun search(query: String, api_key: String, language: String, page: Int): Observable<UpcomingMovies>
+    fun search(query: String, apiKey: String, language: String, page: Int): Observable<UpcomingMovies>
 }
