@@ -4,6 +4,7 @@ import com.mauscoelho.upcomingmovies.domain.boundary.UpcomingMoviesService
 import com.mauscoelho.upcomingmovies.infrastructure.boundary.GenreRepository
 import com.mauscoelho.upcomingmovies.infrastructure.boundary.SearchRepository
 import com.mauscoelho.upcomingmovies.infrastructure.boundary.UpcomingMoviesRepository
+import com.mauscoelho.upcomingmovies.model.Genre
 import com.mauscoelho.upcomingmovies.model.Movie
 import com.mauscoelho.upcomingmovies.model.UpcomingMovies
 import rx.Observable
@@ -22,23 +23,8 @@ class UpcomingMoviesServiceImpl(
                 .subscribeOn(io)
                 .observeOn(main)
                 .map { toMovie(it) }
-                .flatMap { items ->
-                    Observable.from(items).flatMap {
-                        fetchGenre(it, apiKey, language)
-                    }
-                }
+                .flatMap { toObservableMovie(it) }
     }
-
-    private fun fetchGenre(movie: Movie, apiKey: String, language: String): Observable<Movie> {
-        return genreRepository.getGenres(movie.genre_ids, apiKey, language)
-                .subscribeOn(io)
-                .observeOn(main)
-                .flatMap {
-                    movie.genres = it
-                    Observable.just(movie)
-                }
-    }
-
 
     override fun getMovie(movieId: Int, apiKey: String, language: String): Observable<Movie> {
         return upcomingMoviesRepository.getMovie(movieId, apiKey, language)
@@ -49,18 +35,27 @@ class UpcomingMoviesServiceImpl(
                 .subscribeOn(io)
                 .observeOn(main)
                 .map { toMovie(it) }
-                .flatMap { items ->
-                    Observable.from(items).flatMap {
-                        fetchGenre(it, apiKey, language)
-                    }
-                }
+                .flatMap { toObservableMovie(it) }
     }
 
-    private fun toMovie(item: UpcomingMovies): List<Movie> {
-        return item.results.map {
-            it.currentPage = item.page
-            it.totalPages = item.total_pages
-            it
-        }
+    private fun toObservableMovie(items: List<Movie>?): Observable<Movie>? = Observable.from(items).flatMap { fetchGenre(it) }
+
+    private fun fetchGenre(movie: Movie): Observable<Movie> {
+        return genreRepository.getGenres(movie.genre_ids)
+                .subscribeOn(io)
+                .observeOn(main)
+                .flatMap { toObservableMovie(it, movie) }
     }
+
+    private fun toObservableMovie(it: List<Genre>, movie: Movie): Observable<Movie>? {
+        movie.genres = it
+        return Observable.just(movie)
+    }
+
+    private fun toMovie(item: UpcomingMovies): List<Movie> =
+            item.results.map {
+                it.currentPage = item.page
+                it.totalPages = item.total_pages
+                it
+            }
 }
