@@ -11,7 +11,7 @@ import rx.Observable
 
 interface TmdbNetwork {
     @GET("movie/upcoming")
-    fun getUpcomingMovies(@Query("api_key") api_key: String, @Query("language") language: String, @Query("page") page: Int): Observable<UpcomingMovies>
+    fun getUpcomingMovies(@Query("api_key") apiKey: String, @Query("language") language: String, @Query("page") page: Int): Observable<UpcomingMovies>
 
     @GET("movie/{id}")
     fun getMovie(@Path("id") movieId: Int, @Query("api_key") apiKey: String, @Query("language") language: String): Observable<Movie>

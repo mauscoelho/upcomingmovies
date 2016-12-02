@@ -5,6 +5,6 @@ import com.mauscoelho.upcomingmovies.model.UpcomingMovies
 import rx.Observable
 
 interface UpcomingMoviesRepository {
-    fun getUpcomingMovies(api_key: String, language: String, page: Int) : Observable<UpcomingMovies>
-    fun getMovie(movieId: Int, api_key: String, language: String) : Observable<Movie>
+    fun getUpcomingMovies(apiKey: String, language: String, page: Int) : Observable<UpcomingMovies>
+    fun getMovie(movieId: Int, apiKey: String, language: String) : Observable<Movie>
 }

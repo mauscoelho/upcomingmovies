@@ -5,6 +5,7 @@ import com.mauscoelho.upcomingmovies.domain.interactor.UpcomingMoviesServiceImpl
 import com.mauscoelho.upcomingmovies.infrastructure.boundary.GenreRepository
 import com.mauscoelho.upcomingmovies.infrastructure.boundary.SearchRepository
 import com.mauscoelho.upcomingmovies.infrastructure.boundary.UpcomingMoviesRepository
+import com.mauscoelho.upcomingmovies.model.Genre
 import com.mauscoelho.upcomingmovies.model.Movie
 import com.mauscoelho.upcomingmovies.model.UpcomingMovies
 import org.jetbrains.spek.api.Spek
@@ -34,8 +35,8 @@ class UpcomingMoviesServiceTest : Spek({
         context("Get movie detail") {
             it("should return movie detail") {
                 val movieId = 1
-                val expected = Movie(20, 1, 1, "title", "poster_path", "overview", "release_date", "", "", 0.1, listOf(), listOf())
-                val result = Movie(20, 1, 1, "title", "poster_path", "overview", "release_date", "", "", 0.1, listOf(), listOf())
+                val expected = Movie(20, 1, 1, "title", "poster_path", "overview", "release_date", "", "", 0.1, listOf(Genre(1,"Horror")), listOf(1),"a","a","a","a","a")
+                val result = Movie(20, 1, 1, "title", "poster_path", "overview", "release_date", "", "", 0.1, listOf(Genre(1,"Horror")), listOf(1),"a","a","a","a","a")
 
                 Mockito.`when`(upcomingMoviesRepository.getMovie(movieId, apiKey, language)).thenReturn(Observable.just(result))
 
@@ -47,9 +48,9 @@ class UpcomingMoviesServiceTest : Spek({
             it("should not return 3 movies") {
                 val page = 1
                 val expectedMovies =  mutableListOf(
-                        Movie(20, 1, 1, "title", "poster_path", "overview", "release_date", "", "", 0.1, listOf(), listOf()),
-                        Movie(20, 1, 2, "title", "poster_path", "overview", "release_date", "", "", 0.1, listOf(), listOf()),
-                        Movie(20, 1, 3, "title", "poster_path", "overview", "release_date", "", "", 0.1, listOf(), listOf()))
+                        Movie(20, 1, 1, "title", "poster_path", "overview", "release_date", "", "", 0.1, listOf(Genre(1,"Horror")), listOf(1),"a","a","a","a","a"),
+                        Movie(20, 1, 2, "title", "poster_path", "overview", "release_date", "", "", 0.1, listOf(Genre(1,"Horror")), listOf(1),"a","a","a","a","a"),
+                        Movie(20, 1, 3, "title", "poster_path", "overview", "release_date", "", "", 0.1, listOf(Genre(1,"Horror")), listOf(1),"a","a","a","a","a"))
 
                 val result = UpcomingMovies(1, expectedMovies.toTypedArray(), 4, 170)
 

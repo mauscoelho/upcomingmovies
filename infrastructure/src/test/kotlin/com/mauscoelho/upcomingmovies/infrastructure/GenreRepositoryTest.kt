@@ -40,7 +40,7 @@ class GenreRepositoryTest : Spek({
                 Mockito.`when`(snappyDb.get(genresCollection)).thenReturn(genreJson)
                 Mockito.`when`(mapper.readValue(genreJson, Array<Genre>::class.java)).thenReturn(arrayOf(Genre(1, "Horror")))
 
-                RxAssertions.assertThat(genreRepository.getGenres(searchIds, apiKey, language))
+                RxAssertions.assertThat(genreRepository.getGenres(searchIds))
                         .completes()
                         .withoutErrors()
                         .emissionsCount(1)
@@ -52,7 +52,7 @@ class GenreRepositoryTest : Spek({
                 Mockito.`when`(snappyDb.get(genresCollection)).thenReturn(genreJson)
                 Mockito.`when`(mapper.readValue(genreJson, Array<Genre>::class.java)).thenReturn(arrayOf(Genre(1, "Horror"), Genre(2, "Terror")))
 
-                RxAssertions.assertThat(genreRepository.getGenres(listOf(1, 2), apiKey, language))
+                RxAssertions.assertThat(genreRepository.getGenres(listOf(1, 2)))
                         .completes()
                         .withoutErrors()
                         .emissionsCount(1)

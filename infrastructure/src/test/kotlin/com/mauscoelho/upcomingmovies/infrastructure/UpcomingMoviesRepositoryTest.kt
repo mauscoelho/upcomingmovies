@@ -3,6 +3,7 @@ package com.mauscoelho.upcomingmovies.infrastructure
 
 import br.ufs.github.rxassertions.RxAssertions
 import com.mauscoelho.upcomingmovies.infrastructure.boundary.UpcomingMoviesRepository
+import com.mauscoelho.upcomingmovies.model.Genre
 import com.mauscoelho.upcomingmovies.model.Movie
 import com.mauscoelho.upcomingmovies.model.UpcomingMovies
 import com.nhaarman.mockito_kotlin.any
@@ -24,12 +25,12 @@ class UpcomingMoviesRepositoryTest : Spek({
 
     fun createUpcomingMovies(): Observable<UpcomingMovies> {
         val movies = mutableListOf<Movie>()
-        (1..20).mapTo(movies) { Movie(1, 1, it, "title", "poster_path", "overview", "release_date", "", "", 0.1, listOf(), listOf()) }
+        (1..20).mapTo(movies) { Movie(20, 1, 1, "title", "poster_path", "overview", "release_date", "", "", 0.1, listOf(Genre(1,"Horror")), listOf(1),"a","a","a","a","a") }
         return Observable.just(UpcomingMovies(1, movies.toTypedArray(), 4, 80))
     }
 
     fun createMovie(): Observable<Movie> {
-        return Observable.just(Movie(20, 1, 1, "title", "poster_path", "overview", "release_date", "", "", 0.1, listOf(), listOf()))
+        return Observable.just(Movie(20, 1, 1, "title", "poster_path", "overview", "release_date", "", "", 0.1, listOf(Genre(1,"Horror")), listOf(1),"a","a","a","a","a"))
     }
 
     describe("UpcomingMoviesRepositoryTest") {

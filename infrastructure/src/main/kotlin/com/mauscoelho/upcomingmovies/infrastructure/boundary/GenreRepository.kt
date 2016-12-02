@@ -5,6 +5,6 @@ import com.mauscoelho.upcomingmovies.model.Genres
 import rx.Observable
 
 interface GenreRepository {
-    fun loadGenres(api_key: String, language: String): Observable<Genres>
-    fun getGenres(genreIds: List<Int>, api_key: String, language: String): Observable<List<Genre>>
+    fun loadGenres(apiKey: String, language: String): Observable<Genres>
+    fun getGenres(genreIds: List<Int>): Observable<List<Genre>>
 }

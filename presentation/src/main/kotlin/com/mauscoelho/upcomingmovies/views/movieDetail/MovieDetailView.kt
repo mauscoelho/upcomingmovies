@@ -10,7 +10,7 @@ interface MovieDetailView {
     fun setPosterImage(posterPath: String?)
     fun setVoteAvarage(voteAverage: Double)
     fun setOriginalTitle(originalTitle: String)
-    fun setReleaseDate(release_date: String)
-    fun setOriginalLanguage(original_language: String?)
-    fun addGenre(it: Genre)
+    fun setReleaseDate(releaseDate: String)
+    fun setOriginalLanguage(originalLanguage: String?)
+    fun addGenre(genre: Genre)
 }

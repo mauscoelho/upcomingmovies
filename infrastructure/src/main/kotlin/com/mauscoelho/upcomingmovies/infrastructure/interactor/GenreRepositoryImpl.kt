@@ -8,19 +8,19 @@ import com.mauscoelho.upcomingmovies.model.Genres
 import com.snappydb.DB
 import rx.Observable
 
-class GenreRepositoryImpl(val tmdbNetwork: TmdbNetwork,
-                          val genresCollection: String,
-                          val snappyDb: DB,
-                          val mapper : ObjectMapper) : GenreRepository {
+class GenreRepositoryImpl(private val tmdbNetwork: TmdbNetwork,
+                          private val genresCollection: String,
+                          private val snappyDb: DB,
+                          private val mapper : ObjectMapper) : GenreRepository {
 
-    override fun getGenres(genreIds: List<Int>, api_key: String, language: String): Observable<List<Genre>> {
+    override fun getGenres(genreIds: List<Int>): Observable<List<Genre>> {
         val json = snappyDb.get(genresCollection)
         val genres = mapper.readValue(json, Array<Genre>::class.java)
         return Observable.just(genres.filter { genreIds.contains(it.id) })
     }
 
-    override fun loadGenres(api_key: String, language: String): Observable<Genres> {
-        return tmdbNetwork.getGenres(api_key, language)
+    override fun loadGenres(apiKey: String, language: String): Observable<Genres> {
+        return tmdbNetwork.getGenres(apiKey, language)
                 .map {
                     if (!snappyDb.exists(genresCollection)) {
                         val json = mapper.writeValueAsString(it.genres)

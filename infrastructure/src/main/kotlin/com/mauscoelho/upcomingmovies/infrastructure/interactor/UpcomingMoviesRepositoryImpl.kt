@@ -7,12 +7,12 @@ import com.mauscoelho.upcomingmovies.model.UpcomingMovies
 import rx.Observable
 
 
-class UpcomingMoviesRepositoryImpl(val tmdbNetwork: TmdbNetwork) : UpcomingMoviesRepository {
-    override fun getMovie(movieId: Int, api_key: String, language: String): Observable<Movie> {
-        return tmdbNetwork.getMovie(movieId, api_key,language)
+class UpcomingMoviesRepositoryImpl(private val tmdbNetwork: TmdbNetwork) : UpcomingMoviesRepository {
+    override fun getMovie(movieId: Int, apiKey: String, language: String): Observable<Movie> {
+        return tmdbNetwork.getMovie(movieId, apiKey,language)
     }
 
-    override fun getUpcomingMovies(api_key: String, language: String, page: Int): Observable<UpcomingMovies> {
-        return tmdbNetwork.getUpcomingMovies(api_key, language, page)
+    override fun getUpcomingMovies(apiKey: String, language: String, page: Int): Observable<UpcomingMovies> {
+        return tmdbNetwork.getUpcomingMovies(apiKey, language, page)
     }
 }
