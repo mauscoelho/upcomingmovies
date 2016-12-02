@@ -7,8 +7,12 @@ import com.bumptech.glide.Glide
 import com.mauscoelho.upcomingmovies.BuildConfig
 import com.mauscoelho.upcomingmovies.MoviesApplication
 import com.mauscoelho.upcomingmovies.R
+import com.mauscoelho.upcomingmovies.model.Genre
 import com.mauscoelho.upcomingmovies.model.Movie
+import com.mauscoelho.upcomingmovies.views.movies.adapters.GenresAdapter
 import kotlinx.android.synthetic.main.activity_movie_detail.*
+import kotlinx.android.synthetic.main.activity_movie_detail_card_genres.*
+import kotlinx.android.synthetic.main.activity_movie_detail_card_poster.*
 import kotlinx.android.synthetic.main.activity_movie_detail_content.*
 import javax.inject.Inject
 
@@ -16,6 +20,7 @@ import javax.inject.Inject
 class MovieDetailActivity : AppCompatActivity(), MovieDetailView {
 
     @Inject lateinit var movieDetailPresenter: MovieDetailPresenter
+    private val genreAdapter = GenresAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +28,7 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailView {
         MoviesApplication.appComponent.inject(this)
         val movie = intent.getParcelableExtra<Movie>("movie")
         movieDetailPresenter.injectView(this, movie)
+        rv_genres.adapter = genreAdapter
     }
 
     override fun onOptionsItemSelected(menuItem: MenuItem): Boolean {
@@ -61,4 +67,17 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailView {
     override fun setOriginalTitle(originalTitle: String) {
         activity_movie_detail_original_title.text = originalTitle
     }
+
+    override fun setReleaseDate(releaseDate: String) {
+        activity_movie_detail_release_date.text = releaseDate
+    }
+
+    override fun setOriginalLanguage(originalLanguage: String?) {
+        activity_movie_detail_original_language.text = originalLanguage
+    }
+
+    override fun addGenre(genre: Genre) {
+        genreAdapter.addGenre(genre)
+    }
+
 }

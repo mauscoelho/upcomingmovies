@@ -19,5 +19,8 @@ class MovieDetailPresenterImpl : MovieDetailPresenter {
         movieDetailView.setPosterImage(movie.poster_path)
         movieDetailView.setVoteAvarage(movie.vote_average)
         movieDetailView.setOriginalTitle(movie.original_title)
+        movieDetailView.setReleaseDate(movie.release_date)
+        movieDetailView.setOriginalLanguage(movie.original_language)
+        movie.genres.map { movieDetailView.addGenre(it) }
     }
 }
