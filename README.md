@@ -1,5 +1,5 @@
 # Upcoming Movies
-The purpose of this project is to show upcoming movies from [The Movie Db](https://www.themoviedb.org/), see details and search a movie
+The purpose of this project is to show upcoming movies from [The Movie Db](https://www.themoviedb.org/), see details and search a movie. Using the `clean architecture` approach
 
 # Getting starting
 
