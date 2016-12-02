@@ -5,5 +5,5 @@ import rx.Observable
 
 
 interface GenreService {
-    fun loadGenres(api_key: String, language: String): Observable<Genres>
+    fun loadGenres(apiKey: String, language: String): Observable<Genres>
 }

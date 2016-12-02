@@ -8,15 +8,14 @@ import com.mauscoelho.upcomingmovies.model.Movie
 import com.mauscoelho.upcomingmovies.model.UpcomingMovies
 import rx.Observable
 import rx.Scheduler
-import kotlin.reflect.jvm.internal.impl.javax.inject.Inject
 
 
-class UpcomingMoviesServiceImpl @Inject constructor(
-        val upcomingMoviesRepository: UpcomingMoviesRepository,
-        val genreRepository: GenreRepository,
-        val searchRepository: SearchRepository,
-        val io: Scheduler,
-        val main: Scheduler) : UpcomingMoviesService {
+class UpcomingMoviesServiceImpl(
+        private val upcomingMoviesRepository: UpcomingMoviesRepository,
+        private val genreRepository: GenreRepository,
+        private val searchRepository: SearchRepository,
+        private val io: Scheduler,
+        private val main: Scheduler) : UpcomingMoviesService {
 
     override fun getUpcomingMovies(apiKey: String, language: String, page: Int): Observable<Movie> {
         return upcomingMoviesRepository.getUpcomingMovies(apiKey, language, page)
@@ -30,8 +29,8 @@ class UpcomingMoviesServiceImpl @Inject constructor(
                 }
     }
 
-    private fun fetchGenre(movie: Movie, api_key: String, language: String): Observable<Movie> {
-        return genreRepository.getGenres(movie.genre_ids, api_key, language)
+    private fun fetchGenre(movie: Movie, apiKey: String, language: String): Observable<Movie> {
+        return genreRepository.getGenres(movie.genre_ids, apiKey, language)
                 .subscribeOn(io)
                 .observeOn(main)
                 .flatMap {
@@ -41,8 +40,8 @@ class UpcomingMoviesServiceImpl @Inject constructor(
     }
 
 
-    override fun getMovie(movieId: Int, api_key: String, language: String): Observable<Movie> {
-        return upcomingMoviesRepository.getMovie(movieId, api_key, language)
+    override fun getMovie(movieId: Int, apiKey: String, language: String): Observable<Movie> {
+        return upcomingMoviesRepository.getMovie(movieId, apiKey, language)
     }
 
     override fun searchMovies(query: String, apiKey: String, language: String, page: Int): Observable<Movie> {

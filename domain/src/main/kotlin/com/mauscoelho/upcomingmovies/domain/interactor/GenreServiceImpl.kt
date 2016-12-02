@@ -7,7 +7,7 @@ import rx.Observable
 
 
 class GenreServiceImpl(val genreRepository: GenreRepository) : GenreService {
-    override fun loadGenres(api_key: String, language: String): Observable<Genres> {
-        return genreRepository.loadGenres(api_key, language)
+    override fun loadGenres(apiKey: String, language: String): Observable<Genres> {
+        return genreRepository.loadGenres(apiKey, language)
     }
 }

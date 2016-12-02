@@ -24,7 +24,6 @@ class GenreServiceTest : Spek({
 
     describe("GenreServiceTest") {
         context("Get genres") {
-
             it("should return genres from service") {
                 val expected = Genres(listOf(Genre(1,"Horror"), Genre(2, "Terror")))
                 val result = Genres(listOf(Genre(1,"Horror"), Genre(2, "Terror")))
@@ -37,9 +36,6 @@ class GenreServiceTest : Spek({
                         .emissionsCount(1)
                         .expectedSingleValue(expected)
             }
-
-
-
         }
     }
 })
