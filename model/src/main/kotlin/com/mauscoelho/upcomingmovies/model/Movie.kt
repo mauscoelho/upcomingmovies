@@ -17,7 +17,12 @@ data class Movie(
         val release_date: String,
         val vote_average: Double,
         var genres: List<Genre>,
-        val genre_ids: List<Int>) : Parcelable {
+        val genre_ids: List<Int>,
+        val original_language: String?,
+        val popularity : String?,
+        val runtime : String?,
+        val status : String?,
+        val vote_count : String?) : Parcelable {
     companion object {
         @JvmField val CREATOR: Parcelable.Creator<Movie> = object : Parcelable.Creator<Movie> {
             override fun createFromParcel(source: Parcel): Movie = Movie(source)
@@ -37,7 +42,12 @@ data class Movie(
             source.readString(),
             source.readDouble(),
             source.createTypedArrayList(Genre.CREATOR),
-            ArrayList<Int>().apply{ source.readList(this, Int::class.java.classLoader) })
+            ArrayList<Int>().apply{ source.readList(this, Int::class.java.classLoader) },
+            source.readString(),
+            source.readString(),
+            source.readString(),
+            source.readString(),
+            source.readString())
 
     override fun describeContents() = 0
 
@@ -54,6 +64,11 @@ data class Movie(
         dest?.writeDouble(vote_average)
         dest?.writeTypedList(genres)
         dest?.writeList(genre_ids)
+        dest?.writeString(original_language)
+        dest?.writeString(popularity)
+        dest?.writeString(runtime)
+        dest?.writeString(status)
+        dest?.writeString(vote_count)
     }
 }
 

@@ -9,6 +9,7 @@ import com.mauscoelho.upcomingmovies.MoviesApplication
 import com.mauscoelho.upcomingmovies.R
 import com.mauscoelho.upcomingmovies.model.Movie
 import kotlinx.android.synthetic.main.activity_movie_detail.*
+import kotlinx.android.synthetic.main.activity_movie_detail_card_poster.*
 import kotlinx.android.synthetic.main.activity_movie_detail_content.*
 import javax.inject.Inject
 
@@ -61,4 +62,17 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailView {
     override fun setOriginalTitle(originalTitle: String) {
         activity_movie_detail_original_title.text = originalTitle
     }
+
+    override fun setReleaseDate(releaseDate: String) {
+        activity_movie_detail_release_date.text = releaseDate
+    }
+
+    override fun setOriginalLanguage(originalLanguage: String?) {
+        activity_movie_detail_original_language.text = originalLanguage
+    }
+
+    override fun setRuntime(runtime: String?) {
+        activity_movie_detail_runtime.text = runtime
+    }
+
 }
