@@ -1,5 +1,7 @@
 package com.mauscoelho.upcomingmovies.views.movieDetail
 
+import com.mauscoelho.upcomingmovies.model.Genre
+
 
 interface MovieDetailView {
     fun setupToolbar(title: String)
@@ -10,5 +12,5 @@ interface MovieDetailView {
     fun setOriginalTitle(originalTitle: String)
     fun setReleaseDate(release_date: String)
     fun setOriginalLanguage(original_language: String?)
-    fun setRuntime(runtime: String?)
+    fun addGenre(it: Genre)
 }

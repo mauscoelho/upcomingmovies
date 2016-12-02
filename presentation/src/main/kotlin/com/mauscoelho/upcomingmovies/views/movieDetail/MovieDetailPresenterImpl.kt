@@ -21,6 +21,6 @@ class MovieDetailPresenterImpl : MovieDetailPresenter {
         movieDetailView.setOriginalTitle(movie.original_title)
         movieDetailView.setReleaseDate(movie.release_date)
         movieDetailView.setOriginalLanguage(movie.original_language)
-        movieDetailView.setRuntime(movie.runtime)
+        movie.genres.map { movieDetailView.addGenre(it) }
     }
 }

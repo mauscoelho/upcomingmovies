@@ -25,8 +25,9 @@
                 android:id="@+id/activity_movie_detail_original_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxLines="3"
                 android:textColor="@android:color/black"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 tools:text="Title" />
 
             <TextView
@@ -42,16 +43,10 @@
                 tools:text="EN" />
 
             <TextView
-                android:id="@+id/activity_movie_detail_runtime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="120" />
-
-            <TextView
                 android:id="@+id/activity_movie_detail_vote_average"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center"
                 android:textColor="@color/colorAccent"
                 android:textSize="42sp"
                 tools:text="4.2" />

@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:lines="1"
         android:textSize="12sp"
+        tools:text="Horror"
         />
 
 </LinearLayout>
