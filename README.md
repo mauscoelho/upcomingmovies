@@ -23,3 +23,7 @@ The purpose of this project is to show upcoming movies from [The Movie Db](https
 - [Spek](https://jetbrains.github.io/spek/) - To build explicit tests
 - [Mockito Kotlin](https://github.com/nhaarman/mockito-kotlin) - To mock classes and help in tests
 
+# Screenshots
+
+![Alt text](/screenshots/Screenshot_movies.png?raw=true "Movies")
+![Alt text](/screenshots/Screenshot_movie_detail.png?raw=true "Movie detail")
