@@ -1,0 +1,6 @@
+<resources>
+    <dimen name="app_bar_height">340dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="card_text_margin">12dp</dimen>
+</resources>
